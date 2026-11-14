@@ -133,6 +133,20 @@
 @keyframes hmOrbit{to{transform:rotate(360deg)}}@keyframes hmRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:800px){.hm-pickup-premium{grid-template-columns:1fr;padding-top:64px;padding-bottom:64px;gap:30px}.hm-pickup-orbit{width:90px;height:90px;right:0;top:0;opacity:.4}.hm-pickup-orbit span:nth-child(1){left:32px}.hm-pickup-orbit span:nth-child(3){left:32px}.hm-pickup-orbit span:nth-child(2),.hm-pickup-orbit span:nth-child(4){top:32px}.hm-pickup-steps .step{padding:17px}}
 @media(prefers-reduced-motion:reduce){.hm-pickup-orbit,.hm-pickup-steps .step{animation:none}.hm-pickup-steps .step{transition:none}}
+</style><style id="hm-header-visibility-v1">
+header{padding:19px 5%;gap:24px;background:linear-gradient(100deg,#032116,#073323 55%,#032116);box-shadow:0 8px 25px #0002}
+header .logo{flex-shrink:0}
+header nav{gap:clamp(12px,2vw,30px);font-size:clamp(14px,1.05vw,17px);font-weight:700}
+header nav>a:not(.btn){position:relative;color:#fff4d7;padding:14px 3px;white-space:nowrap;transition:color .2s ease}
+header nav>a:not(.btn):after{content:"";position:absolute;left:3px;right:3px;bottom:7px;height:2px;background:#edc66b;transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+header nav>a:not(.btn):hover,header nav>a:not(.btn):focus-visible{color:#edc66b}
+header nav>a:not(.btn):hover:after,header nav>a:not(.btn):focus-visible:after{transform:scaleX(1)}
+header nav>.btn{padding:17px 23px;border-radius:7px;background:linear-gradient(120deg,#ffe9a2,#d5a63e);color:#08291b;font-size:13px;font-weight:800;letter-spacing:.5px;white-space:nowrap;box-shadow:0 4px 20px #e8c57430}
+header nav>.btn:hover{background:linear-gradient(120deg,#fff1bd,#e8bf57);box-shadow:0 7px 26px #e8c57455}
+@media(max-width:1100px){header{padding-inline:3%}header nav{gap:14px;font-size:14px}header nav>.btn{padding:14px;font-size:11px}}
+@media(max-width:850px){header{flex-wrap:wrap;justify-content:center;gap:15px;padding:18px 4%}header nav{width:100%;justify-content:center;flex-wrap:wrap;gap:7px 17px}header nav>a:not(.btn){display:inline-flex!important;font-size:13px;padding:9px 2px}header nav>.btn{font-size:12px;padding:12px 18px}}
+@media(max-width:420px){header nav{gap:4px 12px}header nav>a:not(.btn){font-size:12px}header nav>.btn{width:100%;margin-top:4px}}
+@media(prefers-reduced-motion:reduce){header nav>a,header nav>a:after{transition:none}}
 </style></head><body><div class="top">A TASTE OF VIETNAM · FREE BANKSTOWN PICKUP</div><header><a href="#" class="logo" aria-label="Hạt Mộc home">Hạt Mộc<small>THE RAW TASTE</small></a><nav aria-label="Main navigation"><a href="#shop">Our collection</a><a href="#story">Our roots</a><a href="#pickup">Pickup & delivery</a><a class="btn outline" href="https://m.me/hatmoc.australia" target="_blank" rel="noopener noreferrer">MESSAGE TO ORDER ↗</a></nav></header>
 <main><section class="hero"><div class="hero-art"><div class="cafe-scene"><img src="assets/hanoi-cafe.png" alt="Vietnamese café scene with a woman enjoying coffee and Hạt Mộc coffee and cashews on the table" fetchpriority="high"></div></div><div class="hero-copy"><span class="eyebrow">HANOI → SYDNEY · THE RAW TASTE</span><h1>Big on flavour.<br><em>Fresh from Hanoi.</em></h1><p>A signature selection, chosen for flavour. Bold Hanoi coffee beans and golden roasted cashews — Vietnamese favourites worth savouring, brought to your table in Sydney.</p><div class="actions"><a class="btn" href="#shop">SHOP COFFEE & CASHEWS ↘</a><a class="btn outline" href="https://m.me/hatmoc.australia" target="_blank" rel="noopener noreferrer">RESERVE YOUR BAGS ↗</a></div><div class="promise"><span aria-hidden="true">✧</span><div><strong>Our satisfaction promise</strong><span>Not happy? Message us and we’ll make it right.</span></div></div><div class="hero-foot">FREE BANKSTOWN PICKUP · DELIVERY BY ARRANGEMENT</div></div></section>
 <div class="ribbon"><span>VIETNAMESE ROOTS</span><span>RICH COFFEE. GOLDEN CRUNCH.</span><span>PICKUP IN BANKSTOWN, NSW</span></div>
