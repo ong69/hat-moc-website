@@ -1,4 +1,23 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vietnamese Robusta Coffee & Roasted Cashews Sydney | Hạt Mộc</title>
+<!doctype html><html lang="en"><head><script async src="https://www.googletagmanager.com/gtag/js?id=G-MHPHHCJVQQ"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-MHPHHCJVQQ');
+document.addEventListener('click',function(event){
+  const a=event.target.closest('a[href]');
+  if(!a)return;
+  const href=a.getAttribute('href')||'';
+  if(href==='#shop'){
+    gtag('event','view_collection',{link_location:'website'});
+  }else if(/(?:m\.me\/hatmoc\.australia|instagram\.com\/hatmoc\.australia)/i.test(href)){
+    const label=(a.getAttribute('aria-label')||a.textContent||'').trim().slice(0,100);
+    const product=/cashew/i.test(label)?'cashews':/coffee/i.test(label)?'coffee':/bundle/i.test(label)?'bundle':'general';
+    gtag('event','contact_click',{contact_method:/instagram/i.test(href)?'instagram':'messenger',product_type:product,button_label:label});
+  }
+});
+</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vietnamese Robusta Coffee & Roasted Cashews Sydney | Hạt Mộc</title>
 <meta name="description" content="Shop Hạt Mộc Vietnamese Robusta coffee beans ($24.90/500g) and roasted cashews (150g $5.50, 300g $10.50, 500g $16.90). Free Bankstown pickup, local Sydney delivery by arrangement.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://hatmoc.com/">
