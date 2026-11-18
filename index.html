@@ -399,7 +399,7 @@ function send(channel){if(!entries().length){status.textContent='Add at least on
  const postageText=pickup?'FREE':quote?money(quote.postage)+' indicative; packing confirmation required':'To be confirmed';
  const totalText=pickup?money(cartSubtotal()):quote?money(cartSubtotal()+Number(quote.postage))+' estimated':'To be confirmed';
  const details=['Hi Hạt Mộc, I would like to order:',entries().map(([id,n])=>names[id]+' x '+n+' = '+money(prices[id]*n)).join('; '),'Products subtotal: '+money(cartSubtotal()),'Delivery: '+(pickup?'Free Bankstown pickup':method.value==='local'?'Local delivery by arrangement':'Australia-wide shipping'),'Destination: '+(pickup?'Not required':postcode.value),'Postage: '+postageText,'Order total: '+totalText,'Please confirm the final postage and total before payment.'].join('\n');
- const url=channel==='Messenger'?'https://m.me/hatmoc.australia':'https://ig.me/m/hatmoc.australia';
+ const url=channel==='Messenger'?'https://m.me/hatmoc.australia':'https://www.instagram.com/direct/t/hatmoc.australia/';
  window.open(url,'_blank','noopener,noreferrer');
  navigator.clipboard.writeText(details).then(()=>{status.textContent='Order copied. Paste it into your '+channel+' message.';}).catch(()=>{status.textContent='Copy your order: '+details.replace(/\n/g,' | ');});
 }
