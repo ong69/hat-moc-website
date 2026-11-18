@@ -413,7 +413,7 @@ el('hm-submit-order').addEventListener('click',async()=>{
  if(!entries().length){notice.textContent='Please add a product to your order first.';return;}
  if(method.value!=='pickup'&&!postal()){notice.textContent='Please enter a valid delivery suburb and postcode.';postcode.focus();return;}
  const name=el('hm-customer-name').value.trim(),email=el('hm-customer-email').value.trim(),phone=el('hm-customer-phone').value.trim();
- if(name.length<2||!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)||!phone){notice.textContent='Please enter your name, valid email address and phone number.';return;}
+ if(name.length<2||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!phone){notice.textContent='Please enter your name, valid email address and phone number.';return;}
  const payload={name,email,phone,method:method.value,destination:method.value==='pickup'?'':postcode.value.trim(),notes:el('hm-customer-notes').value.trim(),website:el('hm-customer-website').value,cart:entries().map(([id,qty])=>({id,qty})),postageEstimate:method.value==='post'&&quote?Number(quote.postage):null};
  button.disabled=true;button.textContent='SENDING ORDER…';notice.textContent='Submitting your order…';
  try{const response=await fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const data=await response.json();if(!response.ok||!data.ok)throw Error(data.error||'Order could not be sent');notice.textContent='Thank you! Your order enquiry has been sent to Hạt Mộc. We will contact you to confirm the final amount and payment.';button.textContent='ORDER ENQUIRY SENT';}
