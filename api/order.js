@@ -5,6 +5,8 @@ const names={coffee:'Hanoi coffee beans 500g',cashew150:'Roasted cashews 150g',c
 const money=n=>'$'+n.toFixed(2);
 const clean=(v,max=200)=>typeof v==='string'?v.trim().slice(0,max):'';
 const {quoteCart}=require('./postage');
+const deliveryZones=require('../delivery-zones.json');
+const isApprovedLocal=(destination)=>{const m=String(destination).trim().match(/^(.+?),?\s*(?:NSW\s+)?(\d{4})$/i);if(!m)return false;const suburb=m[1].replace(/,\s*NSW$/i,'').trim().toLowerCase();return deliveryZones.approvedSuburbs.some(z=>z.suburb.toLowerCase()===suburb&&z.postcode===m[2]);};
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');
@@ -26,17 +28,11 @@ module.exports=async function handler(req,res){
   const pc=destination.match(/(\d{4})$/)?.[1];
   if(pc){try{postageAmount=await quoteCart(items,pc);}catch(e){postageAmount=null;}}
  }
- let localMinutes=null;
- if(method==='local'&&process.env.GOOGLE_MAPS_API_KEY){
-  try{
-   const rr=await fetch('https://routes.googleapis.com/directions/v2:computeRoutes',{method:'POST',headers:{'Content-Type':'application/json','X-Goog-Api-Key':process.env.GOOGLE_MAPS_API_KEY,'X-Goog-FieldMask':'routes.duration'},body:JSON.stringify({origin:{address:'61 Cairds Avenue, Bankstown NSW 2200, Australia'},destination:{address:address+', '+destination+', Australia'},travelMode:'DRIVE',routingPreference:'TRAFFIC_UNAWARE'}),signal:AbortSignal.timeout(9000)});
-   if(rr.ok){const data=await rr.json();const seconds=Number(String(data.routes?.[0]?.duration||'').replace(/s$/,''));if(Number.isFinite(seconds)&&seconds>0)localMinutes=seconds/60;}
-  }catch(e){}
- }
- const localFree=method==='local'&&localMinutes!==null&&localMinutes<=15;
+ const localFree=method==='local'&&isApprovedLocal(destination);
+ if(method==='local'&&!localFree)return res.status(400).json({error:'Free local delivery is not available for that suburb. Please select an approved suburb, free Bankstown pickup or Australia-wide postage.'});
  const pickup=method==='pickup',local=method==='local',postReady=method==='post'&&postageAmount!==null;
  const payable=pickup||postReady||localFree;
- const postage=pickup?'FREE pickup':localFree?'FREE local delivery ('+Math.ceil(localMinutes)+' min estimated drive)':local?'Local delivery eligibility not confirmed':postReady?money(postageAmount)+' Australia Post Parcel Post estimate':'Awaiting packing and postage confirmation';
+ const postage=pickup?'FREE pickup':localFree?'FREE local delivery (approved suburb)':local?'Local delivery eligibility not confirmed':postReady?money(postageAmount)+' Australia Post Parcel Post estimate':'Awaiting packing and postage confirmation';
  const total=payable?money(subtotal+(postReady?postageAmount:0)):'Pending delivery confirmation';
  const ref='HM-'+Date.now().toString(36).toUpperCase().slice(-8);
  const fields=[['Reference',ref],['Customer',name],['Email',email],['Phone',phone],['Items',lines.join('\n')],['Products subtotal',money(subtotal)],['Delivery method',pickup?'Free Bankstown pickup':localFree?'Free local delivery':local?'Local delivery eligibility check':'Australia-wide shipping'],['Destination',pickup?'Bankstown pickup':address+', '+destination],['Postage / delivery',postage],['Total',total],['Notes',notes||'None']];
@@ -54,7 +50,7 @@ module.exports=async function handler(req,res){
     : local?'Free local delivery applies only to addresses confirmed within approximately 15 minutes driving of Bankstown. We will check your address and send the final amount and payment instructions. Please do not pay yet.'
     :'Your parcel requires a packing/postage check. We will send the final total and payment details once confirmed. Please do not pay yet.';
   const deliveryText=pickup?'Free Bankstown pickup':localFree?'Free local delivery':local?'Local delivery — eligibility to be confirmed':'Australia Post Parcel Post';
-  const nextStep=pickup?'We will arrange your Bankstown pickup after payment clears.':localFree?'After payment clears, we will contact you to arrange free local delivery.':local?'We will confirm your delivery eligibility and timing, then arrange delivery after payment clears.':'Once payment clears, we aim to dispatch within 2 business days. Australia Post transit time is additional.';
+  const nextStep=pickup?'We will arrange your Bankstown pickup after payment clears.':localFree?'After payment clears, we will contact you to arrange free local delivery in our approved service area.':local?'We will confirm your delivery eligibility and timing, then arrange delivery after payment clears.':'Once payment clears, we aim to dispatch within 2 business days. Australia Post transit time is additional.';
   const customerText='HẠT MỘC — YOUR ORDER\nOrder '+ref+'\n\nHi '+name+',\n\nThank you for your order! Here is your summary.\n\n'+lines.join('\n')+'\n\nProducts: '+money(subtotal)+'\nDelivery: '+deliveryText+'\nDestination: '+(pickup?'Bankstown pickup':address+', '+destination)+'\nPostage: '+postage+'\nTotal: '+total+'\n\nPAYMENT\n'+paymentInstructions+'\n\n'+nextStep+'\n\nPlease note: Product availability is subject to confirmation. A payment screenshot does not confirm cleared funds.\n\nQuestions? Reply to this email.\nHạt Mộc — The Raw Taste\nwww.hatmoc.com';
   const rows=lines.map(x=>'<tr><td style="padding:10px 0;border-bottom:1px solid #e8e3d7">'+escape(x)+'</td></tr>').join('');
   const payHtml=payable
