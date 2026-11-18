@@ -1,5 +1,5 @@
 {
-  "description": "Hạt Mộc free local delivery approved suburbs. This is a business-defined service area, not a verified 15-minute driving-time calculation. Edit the list to expand or reduce coverage.",
+  "description": "Hạt Mộc business-approved free local delivery suburbs. Indicative surrounding Bankstown service area, not guaranteed to be within 20 minutes driving from every address. Maintain this list to match delivery capacity; no external API.",
   "approvedSuburbs": [
     {
       "suburb": "Bankstown",
@@ -16,6 +16,82 @@
     {
       "suburb": "Condell Park",
       "postcode": "2200"
+    },
+    {
+      "suburb": "Chullora",
+      "postcode": "2190"
+    },
+    {
+      "suburb": "Lidcombe",
+      "postcode": "2141"
+    },
+    {
+      "suburb": "Strathfield",
+      "postcode": "2135"
+    },
+    {
+      "suburb": "Greenacre",
+      "postcode": "2190"
+    },
+    {
+      "suburb": "Punchbowl",
+      "postcode": "2196"
+    },
+    {
+      "suburb": "Wiley Park",
+      "postcode": "2195"
+    },
+    {
+      "suburb": "Lakemba",
+      "postcode": "2195"
+    },
+    {
+      "suburb": "Belmore",
+      "postcode": "2192"
+    },
+    {
+      "suburb": "Campsie",
+      "postcode": "2194"
+    },
+    {
+      "suburb": "Revesby",
+      "postcode": "2212"
+    },
+    {
+      "suburb": "Padstow",
+      "postcode": "2211"
+    },
+    {
+      "suburb": "Regents Park",
+      "postcode": "2143"
+    },
+    {
+      "suburb": "Berala",
+      "postcode": "2141"
+    },
+    {
+      "suburb": "Sefton",
+      "postcode": "2162"
+    },
+    {
+      "suburb": "Bass Hill",
+      "postcode": "2197"
+    },
+    {
+      "suburb": "Birrong",
+      "postcode": "2143"
+    },
+    {
+      "suburb": "Chester Hill",
+      "postcode": "2162"
+    },
+    {
+      "suburb": "Belfield",
+      "postcode": "2191"
+    },
+    {
+      "suburb": "Roselands",
+      "postcode": "2196"
     }
   ]
 }
