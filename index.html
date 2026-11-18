@@ -310,25 +310,85 @@ video.addEventListener('play',sync);video.addEventListener('pause',sync);
 if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){video.pause()}sync();
 })();
 </script><script id="hm-order-builder-script">
-(function(){
+(()=>{
 const prices={coffee:24.9,cashew150:5.5,cashew300:10.5,cashew500:16.9,bundle:39.9};
 const names={coffee:'Hanoi coffee beans 500g',cashew150:'Roasted cashews 150g',cashew300:'Roasted cashews 300g',cashew500:'Roasted cashews 500g',bundle:'Coffee + cashews bundle'};
-const product=document.getElementById('hm-order-product'),qty=document.getElementById('hm-order-qty'),method=document.getElementById('hm-order-method'),postcode=document.getElementById('hm-order-postcode'),wrap=document.getElementById('hm-order-postcode-wrap'),total=document.getElementById('hm-order-subtotal'),shipping=document.getElementById('hm-order-shipping'),status=document.getElementById('hm-order-status');
-if(!product)return;
-let latestQuote=null,requestId=0;const quoteLine=document.getElementById('hm-order-quote');const grand=document.getElementById('hm-order-grand');
-function update(){latestQuote=null;requestId++;if(quoteLine)quoteLine.textContent='Postage: enter destination to calculate';if(grand)grand.textContent='Pending postage quote';const n=Math.max(1,Math.min(30,Number(qty.value)||1));total.textContent=String.fromCharCode(36)+(prices[product.value]*n).toFixed(2);wrap.hidden=method.value==='pickup';postcode.disabled=method.value==='pickup';postcode.required=method.value!=='pickup';shipping.textContent=method.value==='pickup'?'Pickup: FREE (Bankstown)':method.value==='local'?'Local delivery: fee and availability confirmed by suburb/postcode':'Australia-wide: indicative Australia Post Parcel Post quote; dispatch within 2 business days, delivery time varies';if(method.value==='pickup'){if(quoteLine)quoteLine.textContent='Postage: FREE';if(grand)grand.textContent=String.fromCharCode(36)+(prices[product.value]*n).toFixed(2);}else if(method.value==='post'){calculate();}}
-[product,qty,method,postcode].forEach(e=>{e.addEventListener('input',update);e.addEventListener('change',update)});update();
-async function send(channel){if(method.value!=='pickup'&&!chosen&&!/^[0-9]{4}$/.test(postcode.value.trim())){postcode.setCustomValidity('Select a suburb from the dropdown, or enter a four-digit postcode.');postcode.reportValidity();return;}postcode.setCustomValidity('');if(!document.getElementById('hm-order-form').reportValidity())return;const n=Math.max(1,Math.min(30,Number(qty.value)||1));const details=['Hi Hạt Mộc, I would like to order:',names[product.value]+' x '+n,'Products subtotal: '+String.fromCharCode(36)+(prices[product.value]*n).toFixed(2),'Delivery: '+(method.value==='pickup'?'Free Bankstown pickup':method.value==='local'?'Local delivery by arrangement':'Australia-wide postage'),'Destination: '+(method.value==='pickup'?'Not needed for pickup':postcode.value),'Postage: '+(method.value==='pickup'?'FREE':latestQuote?('].join('\n');try{await navigator.clipboard.writeText(details);status.textContent='Order copied. Paste it into your '+channel+' message.';}catch(e){status.textContent='Clipboard unavailable. Copy these details: '+details.replace(/\n/g,' | ');}window.open(channel==='Messenger'?'https://m.me/hatmoc.australia':'https://ig.me/m/hatmoc.australia','_blank','noopener,noreferrer');}
-let quoteTimer=null;
-function postcodeNumber(){const m=postcode.value.trim().match(/(?:^|\\s)([0-9]{4})$/);return m?m[1]:null;}
-function calculate(){clearTimeout(quoteTimer);const pc=postcodeNumber();if(method.value!=='post'||!pc)return;const id=++requestId;quoteTimer=setTimeout(async()=>{if(quoteLine)quoteLine.textContent='Checking Australia Post postage…';try{const url='/api/postage?'+new URLSearchParams({product:product.value,quantity:String(Math.max(1,Math.min(30,Number(qty.value)||1))),postcode:pc});const response=await fetch(url);const data=await response.json();if(id!==requestId)return;if(!response.ok)throw Error(data.error||'Postage unavailable');latestQuote=data;if(quoteLine)quoteLine.textContent='Indicative Parcel Post: let places=[],loaded=false,loading=false,chosen=null;
-const source='https://raw.githubusercontent.com/matthewproctor/australianpostcodes/master/australian_postcodes.json';
-async function loadPlaces(){if(loaded||loading)return;loading=true;try{const response=await fetch(source);if(!response.ok)throw Error('postcode data unavailable');const data=await response.json();places=data.filter(x=>x.postcode&&x.locality).map(x=>({postcode:String(x.postcode).padStart(4,'0'),suburb:String(x.locality),state:String(x.state||'')}));loaded=true;}catch(e){status.textContent='Suburb suggestions unavailable. Please enter a four-digit postcode instead.';}finally{loading=false;showSuggestions();}}
-function choose(place){chosen=place;postcode.value=place.suburb+', '+place.state+' '+place.postcode;suggestions.hidden=true;postcode.setCustomValidity('');postcode.setAttribute('aria-expanded','false');update();}
-function showSuggestions(){if(method.value==='pickup'){suggestions.hidden=true;return;}const query=postcode.value.trim().toLowerCase();suggestions.replaceChildren();if(query.length<2||!places.length){suggestions.hidden=true;return;}const matches=places.filter(x=>x.postcode.startsWith(query)||x.suburb.toLowerCase().startsWith(query)).slice(0,9);for(const place of matches){const button=document.createElement('button');button.type='button';button.setAttribute('role','option');button.textContent=place.suburb+', '+place.state+' '+place.postcode;button.addEventListener('click',()=>choose(place));suggestions.append(button);}suggestions.hidden=!matches.length;postcode.setAttribute('aria-expanded',String(!!matches.length));}
-postcode.addEventListener('focus',()=>{loadPlaces();showSuggestions();});postcode.addEventListener('input',()=>{chosen=null;postcode.setCustomValidity('');showSuggestions();});
-postcode.addEventListener('blur',()=>{setTimeout(()=>{suggestions.hidden=true;},180);});
-document.getElementById('hm-order-messenger').addEventListener('click',()=>send('Messenger'));document.getElementById('hm-order-instagram').addEventListener('click',()=>send('Instagram'));
+const el=id=>document.getElementById(id);
+const product=el('hm-order-product'),qty=el('hm-order-qty'),method=el('hm-order-method'),postcode=el('hm-order-postcode'),wrap=el('hm-order-postcode-wrap'),subtotal=el('hm-order-subtotal'),shipping=el('hm-order-shipping'),status=el('hm-order-status'),quoteLine=el('hm-order-quote'),grand=el('hm-order-grand'),suggestions=el('hm-location-suggestions');
+if(!product||!qty||!method||!postcode||!wrap||!subtotal||!shipping||!status)return;
+let quote=null,requestId=0,timer=null,places=[],loaded=false,loading=false,chosen=null;
+const money=n=>'$'+Number(n).toFixed(2);
+const quantity=()=>Math.max(1,Math.min(30,Number(qty.value)||1));
+const postal=()=>{const match=postcode.value.trim().match(/(?:^|\s)(\d{4})$/);return match?match[1]:null;};
+function update(){
+ quote=null;requestId++;clearTimeout(timer);
+ subtotal.textContent=money(prices[product.value]*quantity());
+ const pickup=method.value==='pickup';wrap.hidden=pickup;postcode.disabled=pickup;postcode.required=!pickup;
+ if(suggestions)suggestions.hidden=true;
+ shipping.textContent=pickup?'Free Bankstown pickup':method.value==='local'?'Local delivery: fee confirmed by suburb':'Australia-wide: Australia Post postage estimate; dispatch within 2 business days';
+ if(quoteLine)quoteLine.textContent=pickup?'Postage: FREE':method.value==='local'?'Local delivery fee confirmed by message':'Postage: enter destination to calculate';
+ if(grand)grand.textContent=pickup?money(prices[product.value]*quantity()):'Pending postage quote';
+ if(method.value==='post'&&postal())calculate();
+}
+async function calculate(){
+ const pc=postal();if(method.value!=='post'||!pc)return;
+ const id=++requestId;clearTimeout(timer);
+ timer=setTimeout(async()=>{
+  if(quoteLine)quoteLine.textContent='Checking Australia Post postage…';
+  try{
+   const url='/api/postage?'+new URLSearchParams({product:product.value,quantity:String(quantity()),postcode:pc});
+   const response=await fetch(url);const data=await response.json();
+   if(id!==requestId)return;
+   if(!response.ok)throw new Error(data.error||'Postage unavailable');
+   quote=data;
+   if(quoteLine)quoteLine.textContent='Indicative Parcel Post: '+money(data.postage);
+   if(grand)grand.textContent=money(data.total)+' estimated';
+  }catch(error){if(id!==requestId)return;quote=null;if(quoteLine)quoteLine.textContent=error.message||'Postage quote unavailable';if(grand)grand.textContent='Confirm postage before payment';}
+ },450);
+}
+function showSuggestions(){
+ if(!suggestions||method.value==='pickup')return;
+ const query=postcode.value.trim().toLowerCase();suggestions.replaceChildren();
+ if(query.length<2||!places.length){suggestions.hidden=true;return;}
+ const matches=places.filter(p=>p.postcode.startsWith(query)||p.suburb.toLowerCase().startsWith(query)).slice(0,9);
+ for(const p of matches){
+  const button=document.createElement('button');button.type='button';button.setAttribute('role','option');
+  button.textContent=p.suburb+', '+p.state+' '+p.postcode;
+  button.addEventListener('click',()=>{chosen=p;postcode.value=button.textContent;suggestions.hidden=true;postcode.setCustomValidity('');update();});
+  suggestions.appendChild(button);
+ }
+ suggestions.hidden=!matches.length;postcode.setAttribute('aria-expanded',String(!!matches.length));
+}
+async function loadPlaces(){
+ if(loaded||loading)return;loading=true;
+ try{
+  const response=await fetch('https://raw.githubusercontent.com/matthewproctor/australianpostcodes/master/australian_postcodes.json');
+  if(!response.ok)throw Error('Unavailable');
+  const data=await response.json();
+  places=data.filter(p=>p.postcode&&p.locality).map(p=>({postcode:String(p.postcode).padStart(4,'0'),suburb:String(p.locality),state:String(p.state||'')}));
+  loaded=true;
+ }catch(e){status.textContent='Suburb search unavailable. You can still enter a four-digit postcode.';}
+ finally{loading=false;showSuggestions();}
+}
+function send(channel){
+ if(method.value!=='pickup'&&!chosen&&!/^\d{4}$/.test(postcode.value.trim())){postcode.setCustomValidity('Choose a suburb from suggestions or enter a four-digit postcode.');postcode.reportValidity();return;}
+ postcode.setCustomValidity('');
+ if(!el('hm-order-form').reportValidity())return;
+ const n=quantity(),pickup=method.value==='pickup';
+ const postageText=pickup?'FREE':quote?money(quote.postage)+' indicative; packing confirmation required':'To be confirmed';
+ const totalText=pickup?money(prices[product.value]*n):quote?money(quote.total)+' estimated':'To be confirmed';
+ const details=['Hi Hạt Mộc, I would like to order:',names[product.value]+' x '+n,'Products subtotal: '+money(prices[product.value]*n),'Delivery: '+(pickup?'Free Bankstown pickup':method.value==='local'?'Local delivery by arrangement':'Australia-wide shipping'),'Destination: '+(pickup?'Not required':postcode.value),'Postage: '+postageText,'Order total: '+totalText,'Please confirm the final postage and total before payment.'].join('\n');
+ const url=channel==='Messenger'?'https://m.me/hatmoc.australia':'https://ig.me/m/hatmoc.australia';
+ window.open(url,'_blank','noopener,noreferrer');
+ navigator.clipboard.writeText(details).then(()=>{status.textContent='Order copied. Paste it into your '+channel+' message.';}).catch(()=>{status.textContent='Copy your order: '+details.replace(/\n/g,' | ');});
+}
+[product,qty,method].forEach(field=>{field.addEventListener('change',update);field.addEventListener('input',update);});
+postcode.addEventListener('focus',()=>{loadPlaces();showSuggestions();});
+postcode.addEventListener('input',()=>{chosen=null;postcode.setCustomValidity('');update();showSuggestions();});
+postcode.addEventListener('blur',()=>setTimeout(()=>{if(suggestions)suggestions.hidden=true;},180));
+el('hm-order-messenger').addEventListener('click',()=>send('Messenger'));
+el('hm-order-instagram').addEventListener('click',()=>send('Instagram'));
+update();
 })();
 </script>+latestQuote.postage.toFixed(2)+' indicative, packing confirmation required'):'Quote required'),'Estimated total: '+(method.value==='pickup'?'].join('\n');try{await navigator.clipboard.writeText(details);status.textContent='Order copied. Paste it into your '+channel+' message.';}catch(e){status.textContent='Clipboard unavailable. Copy these details: '+details.replace(/\n/g,' | ');}window.open(channel==='Messenger'?'https://m.me/hatmoc.australia':'https://ig.me/m/hatmoc.australia','_blank','noopener,noreferrer');}
 const suggestions=document.getElementById('hm-location-suggestions');let places=[],loaded=false,loading=false,chosen=null;
