@@ -62,6 +62,6 @@ module.exports=async function handler(req,res){
    const customerResponse=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+apiKey,'Content-Type':'application/json'},body:JSON.stringify({from,to:[email],reply_to:'nick_ong@outlook.com',subject:'Hạt Mộc | Order confirmation '+ref,text:customerText,html:customerHtml}),signal:AbortSignal.timeout(10000)});
    acknowledgementSent=customerResponse.ok;
   }catch(e){/* Owner already received the order; avoid duplicate submissions. */}
-  return res.status(200).json({ok:true,acknowledgementSent});
+  return res.status(200).json({ok:true,acknowledgementSent,reference:ref,paymentReady:payable,deliveryMethod:method});
  }catch(e){return res.status(502).json({error:'Unable to deliver your order right now. Please try again.'});}
 };
