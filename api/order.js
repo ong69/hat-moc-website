@@ -26,12 +26,20 @@ module.exports=async function handler(req,res){
   const pc=destination.match(/(\d{4})$/)?.[1];
   if(pc){try{postageAmount=await quoteCart(items,pc);}catch(e){postageAmount=null;}}
  }
+ let localMinutes=null;
+ if(method==='local'&&process.env.GOOGLE_MAPS_API_KEY){
+  try{
+   const rr=await fetch('https://routes.googleapis.com/directions/v2:computeRoutes',{method:'POST',headers:{'Content-Type':'application/json','X-Goog-Api-Key':process.env.GOOGLE_MAPS_API_KEY,'X-Goog-FieldMask':'routes.duration'},body:JSON.stringify({origin:{address:'61 Cairds Avenue, Bankstown NSW 2200, Australia'},destination:{address:address+', '+destination+', Australia'},travelMode:'DRIVE',routingPreference:'TRAFFIC_UNAWARE'}),signal:AbortSignal.timeout(9000)});
+   if(rr.ok){const data=await rr.json();const seconds=Number(String(data.routes?.[0]?.duration||'').replace(/s$/,''));if(Number.isFinite(seconds)&&seconds>0)localMinutes=seconds/60;}
+  }catch(e){}
+ }
+ const localFree=method==='local'&&localMinutes!==null&&localMinutes<=15;
  const pickup=method==='pickup',local=method==='local',postReady=method==='post'&&postageAmount!==null;
- const payable=pickup||postReady;
- const postage=pickup?'FREE pickup':local?'Free local delivery subject to 15-minute driving-time check':postReady?money(postageAmount)+' Australia Post Parcel Post estimate':'Awaiting packing and postage confirmation';
+ const payable=pickup||postReady||localFree;
+ const postage=pickup?'FREE pickup':localFree?'FREE local delivery ('+Math.ceil(localMinutes)+' min estimated drive)':local?'Local delivery eligibility not confirmed':postReady?money(postageAmount)+' Australia Post Parcel Post estimate':'Awaiting packing and postage confirmation';
  const total=payable?money(subtotal+(postReady?postageAmount:0)):'Pending delivery confirmation';
  const ref='HM-'+Date.now().toString(36).toUpperCase().slice(-8);
- const fields=[['Reference',ref],['Customer',name],['Email',email],['Phone',phone],['Items',lines.join('\n')],['Products subtotal',money(subtotal)],['Delivery method',pickup?'Free Bankstown pickup':local?'Local delivery eligibility check':'Australia-wide shipping'],['Destination',pickup?'Bankstown pickup':address+', '+destination],['Postage / delivery',postage],['Total',total],['Notes',notes||'None']];
+ const fields=[['Reference',ref],['Customer',name],['Email',email],['Phone',phone],['Items',lines.join('\n')],['Products subtotal',money(subtotal)],['Delivery method',pickup?'Free Bankstown pickup':localFree?'Free local delivery':local?'Local delivery eligibility check':'Australia-wide shipping'],['Destination',pickup?'Bankstown pickup':address+', '+destination],['Postage / delivery',postage],['Total',total],['Notes',notes||'None']];
  const plain='New Hạt Mộc customer order\n\n'+fields.map(([k,v])=>k+': '+v).join('\n')+'\n\nPayment must be checked in St.George before fulfilment.';
  const html='<div style="font-family:Arial,sans-serif;max-width:560px;color:#123c2b"><div style="background:#103d2b;color:#f5d78d;padding:20px"><h2 style="margin:0">Hạt Mộc · New order</h2></div><div style="padding:18px;border:1px solid #e7dfcc"><p><b>Order reference: '+escape(ref)+'</b></p>'+fields.slice(1).map(([k,v])=>'<p style="border-bottom:1px solid #eee;padding-bottom:9px"><b>'+escape(k)+'</b><br>'+escape(v).replace(/\n/g,'<br>')+'</p>').join('')+'<p><b>Check funds in St.George before pickup or dispatch.</b></p></div></div>';
  const apiKey=process.env.RESEND_API_KEY,from=process.env.RESEND_FROM_EMAIL;
@@ -45,8 +53,8 @@ module.exports=async function handler(req,res){
     ? 'Amount to pay: '+total+'\n'+payText+'\n\nAfter paying, reply to this email with a screenshot or payment confirmation and include your order reference. We will check the funds in St.George before preparing your order.'
     : local?'Free local delivery applies only to addresses confirmed within approximately 15 minutes driving of Bankstown. We will check your address and send the final amount and payment instructions. Please do not pay yet.'
     :'Your parcel requires a packing/postage check. We will send the final total and payment details once confirmed. Please do not pay yet.';
-  const deliveryText=pickup?'Free Bankstown pickup':local?'Local delivery — eligibility to be confirmed':'Australia Post Parcel Post';
-  const nextStep=pickup?'We will arrange your Bankstown pickup after payment clears.':local?'We will confirm your delivery eligibility and timing, then arrange delivery after payment clears.':'Once payment clears, we aim to dispatch within 2 business days. Australia Post transit time is additional.';
+  const deliveryText=pickup?'Free Bankstown pickup':localFree?'Free local delivery':local?'Local delivery — eligibility to be confirmed':'Australia Post Parcel Post';
+  const nextStep=pickup?'We will arrange your Bankstown pickup after payment clears.':localFree?'After payment clears, we will contact you to arrange free local delivery.':local?'We will confirm your delivery eligibility and timing, then arrange delivery after payment clears.':'Once payment clears, we aim to dispatch within 2 business days. Australia Post transit time is additional.';
   const customerText='HẠT MỘC — YOUR ORDER\nOrder '+ref+'\n\nHi '+name+',\n\nThank you for your order! Here is your summary.\n\n'+lines.join('\n')+'\n\nProducts: '+money(subtotal)+'\nDelivery: '+deliveryText+'\nDestination: '+(pickup?'Bankstown pickup':address+', '+destination)+'\nPostage: '+postage+'\nTotal: '+total+'\n\nPAYMENT\n'+paymentInstructions+'\n\n'+nextStep+'\n\nPlease note: Product availability is subject to confirmation. A payment screenshot does not confirm cleared funds.\n\nQuestions? Reply to this email.\nHạt Mộc — The Raw Taste\nwww.hatmoc.com';
   const rows=lines.map(x=>'<tr><td style="padding:10px 0;border-bottom:1px solid #e8e3d7">'+escape(x)+'</td></tr>').join('');
   const payHtml=payable
