@@ -23,7 +23,6 @@ async function quoteCart(items,postcode){
  if(!Number.isFinite(amount)||amount<0)throw Error('No Parcel Post rate returned');
  return amount;
 }
-module.exports.quoteCart=quoteCart;
 module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');
  if(req.method!=='GET')return res.status(405).json({error:'Method not allowed'});
@@ -60,3 +59,4 @@ module.exports=async function handler(req,res){
   return res.status(200).json({postage:amount,subtotal:Number(subtotal.toFixed(2)),total:Number((subtotal+amount).toFixed(2)),service:'Australia Post Parcel Post',estimated:true,notice:'Indicative rate using estimated packed weight and dimensions. Prepaid satchel fit and final postage must be confirmed before payment.'});
  }catch(e){return res.status(502).json({error:'Australia Post is unavailable. Please request a postage quote.'});}
 };
+module.exports.quoteCart=quoteCart;
