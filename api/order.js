@@ -31,6 +31,13 @@ module.exports=async function handler(req,res){
  try{
   const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+apiKey,'Content-Type':'application/json'},body:JSON.stringify({from,to:['nick_ong@outlook.com'],reply_to:email,subject:'Hạt Mộc order enquiry — '+name,text:plain,html}),signal:AbortSignal.timeout(10000)});
   if(!response.ok)return res.status(502).json({error:'Unable to deliver your order right now. Please try again or contact us directly.'});
-  return res.status(200).json({ok:true});
+  // Customer acknowledgement is sent only after the owner notification succeeds.
+  const customerText='Hi '+name+',\n\nThank you for ordering from Hạt Mộc! We have received your order enquiry.\n\n'+lines.join('\n')+'\n\nProducts subtotal: '+money(subtotal)+'\nDelivery: '+(method==='pickup'?'Free Bankstown pickup':method==='post'?'Australia-wide postage':'Local delivery by arrangement')+'\nPostage: '+postage+'\nOrder total: '+total+'\n\nWhat happens next?\n1. We will confirm product availability, the final delivery or pickup arrangements and the final amount payable.\n2. We will then email you PayID and bank transfer instructions. Please do not pay until you receive that confirmation.\n3. Once we verify your payment, your order will be prepared for dispatch within 2 business days (or pickup will be arranged).\n\nIf you have questions, reply to this email.\n\nHạt Mộc — The Raw Taste\nwww.hatmoc.com';
+  let acknowledgementSent=false;
+  try{
+   const customerResponse=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+apiKey,'Content-Type':'application/json'},body:JSON.stringify({from,to:[email],reply_to:'nick_ong@outlook.com',subject:'Hạt Mộc — We received your order',text:customerText}),signal:AbortSignal.timeout(10000)});
+   acknowledgementSent=customerResponse.ok;
+  }catch(e){/* Owner already received order; do not ask customer to resubmit. */}
+  return res.status(200).json({ok:true,acknowledgementSent});
  }catch(e){return res.status(502).json({error:'Unable to deliver your order right now. Please try again.'});}
 };
