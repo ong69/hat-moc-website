@@ -1,0 +1,21 @@
+{
+  "description": "Hạt Mộc free local delivery approved suburbs. This is a business-defined service area, not a verified 15-minute driving-time calculation. Edit the list to expand or reduce coverage.",
+  "approvedSuburbs": [
+    {
+      "suburb": "Bankstown",
+      "postcode": "2200"
+    },
+    {
+      "suburb": "Mount Lewis",
+      "postcode": "2190"
+    },
+    {
+      "suburb": "Yagoona",
+      "postcode": "2199"
+    },
+    {
+      "suburb": "Condell Park",
+      "postcode": "2200"
+    }
+  ]
+}
