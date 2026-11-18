@@ -9,15 +9,23 @@ const products={
 module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');
  if(req.method!=='GET')return res.status(405).json({error:'Method not allowed'});
- const {product,quantity,postcode}=req.query||{};
- const n=Number(quantity);
- if(!products[product]||!Number.isInteger(n)||n<1||n>30||!/^[0-9]{4}$/.test(String(postcode||'')))return res.status(400).json({error:'Choose a valid product, quantity and Australian postcode.'});
- const item=products[product];
- // Bag dimensions are measured by the seller; package size and weight are conservative estimates.
- // Stacking can be different in a flexible satchel; do not claim a prepaid satchel fit.
- const weight=Number(((item.grams*n+100)/1000).toFixed(3));
- if(weight>5)return res.status(422).json({error:'This order may require multiple satchels. Please request a manual postage quote.'});
- const dims=[item.h,item.w,item.d*n+2].sort((a,b)=>b-a);
+ const {product,quantity,postcode,cart}=req.query||{};
+ let items;
+ try{items=cart?JSON.parse(cart):[{id:product,qty:Number(quantity)}];}catch(e){return res.status(400).json({error:'Invalid cart.'});}
+ if(!Array.isArray(items)||items.length<1||items.length>5||!/^[0-9]{4}$/.test(String(postcode||'')))return res.status(400).json({error:'Invalid items or postcode.'});
+ const quantities={};
+ for(const entry of items){if(!entry||!products[entry.id]||!Number.isInteger(entry.qty)||entry.qty<1||entry.qty>30)return res.status(400).json({error:'Invalid product or quantity.'});quantities[entry.id]=(quantities[entry.id]||0)+entry.qty;}
+ const entries=Object.entries(quantities);
+ const totalBags=entries.reduce((n,[id,qty])=>n+qty*(id==='bundle'?2:1),0);
+ const subtotal=entries.reduce((n,[id,qty])=>n+products[id].price*qty,0);
+ const grams=entries.reduce((n,[id,qty])=>n+products[id].grams*qty,0);
+ const weight=Number(((grams+100)/1000).toFixed(3));
+ if(weight>5||totalBags>6)return res.status(422).json({error:'Multiple bags or satchels may be required. Please request a manual postage quote.'});
+ // Conservative single-parcel approximation, not a guaranteed satchel fit.
+ const longest=Math.max(...entries.map(([id])=>products[id].h));
+ const widest=Math.max(...entries.map(([id])=>products[id].w));
+ const thickness=entries.reduce((n,[id,qty])=>n+products[id].d*qty,0)+2;
+ const dims=[longest,widest,thickness].sort((a,b)=>b-a);
  if(dims[0]>100||dims[1]>70||dims[2]>70)return res.status(422).json({error:'This order requires a packing check. Please request a manual quote.'});
  const key=process.env.AUSPOST_API_KEY;
  if(!key)return res.status(503).json({error:'Live Australia Post postage is not enabled yet. Please request a postage quote.'});
@@ -31,6 +39,6 @@ module.exports=async function handler(req,res){
   const regular=services.find(s=>s.code==='AUS_PARCEL_REGULAR');
   const amount=Number(regular?.price);
   if(!Number.isFinite(amount)||amount<0)return res.status(502).json({error:'No standard Parcel Post rate was returned. Please request a quote.'});
-  return res.status(200).json({postage:amount,subtotal:Number((item.price*n).toFixed(2)),total:Number((item.price*n+amount).toFixed(2)),service:'Australia Post Parcel Post',estimated:true,notice:'Indicative rate using estimated packed weight and dimensions. Prepaid satchel fit and final postage must be confirmed before payment.'});
+  return res.status(200).json({postage:amount,subtotal:Number(subtotal.toFixed(2)),total:Number((subtotal+amount).toFixed(2)),service:'Australia Post Parcel Post',estimated:true,notice:'Indicative rate using estimated packed weight and dimensions. Prepaid satchel fit and final postage must be confirmed before payment.'});
  }catch(e){return res.status(502).json({error:'Australia Post is unavailable. Please request a postage quote.'});}
 };
