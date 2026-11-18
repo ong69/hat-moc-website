@@ -6,6 +6,24 @@ const products={
  cashew500:{price:16.9,grams:500,h:16,w:10,d:5},
  bundle:{price:39.9,grams:1000,h:25,w:15,d:13}
 };
+async function quoteCart(items,postcode){
+ if(!Array.isArray(items)||items.length<1||items.length>5||!/^[0-9]{4}$/.test(String(postcode||'')))throw Error('Invalid order or destination postcode');
+ const quantities={};
+ for(const entry of items){if(!entry||!products[entry.id]||!Number.isInteger(entry.qty)||entry.qty<1||entry.qty>30)throw Error('Invalid product quantity');quantities[entry.id]=(quantities[entry.id]||0)+entry.qty;}
+ const entries=Object.entries(quantities),bags=entries.reduce((n,[id,q])=>n+q*(id==='bundle'?2:1),0),grams=entries.reduce((n,[id,q])=>n+products[id].grams*q,0),weight=Number(((grams+100)/1000).toFixed(3));
+ if(weight>5||bags>6)throw Error('This order needs a manual packing and postage quote');
+ const dims=[Math.max(...entries.map(([id])=>products[id].h)),Math.max(...entries.map(([id])=>products[id].w)),entries.reduce((n,[id,q])=>n+products[id].d*q,0)+2].sort((a,b)=>b-a);
+ if(dims[0]>100||dims[1]>70||dims[2]>70)throw Error('This order needs a manual packing check');
+ if(!process.env.AUSPOST_API_KEY)throw Error('Australia Post is not configured');
+ const params=new URLSearchParams({from_postcode:process.env.AUSPOST_FROM_POSTCODE||'2200',to_postcode:postcode,length:String(dims[0]),width:String(dims[1]),height:String(dims[2]),weight:String(weight)});
+ const response=await fetch('https://digitalapi.auspost.com.au/postage/parcel/domestic/service.json?'+params,{headers:{'AUTH-KEY':process.env.AUSPOST_API_KEY},signal:AbortSignal.timeout(10000)});
+ if(!response.ok)throw Error('Australia Post rate unavailable');
+ const data=await response.json(),raw=data?.services?.service,services=Array.isArray(raw)?raw:raw?[raw]:[];
+ const amount=Number(services.find(x=>x.code==='AUS_PARCEL_REGULAR')?.price);
+ if(!Number.isFinite(amount)||amount<0)throw Error('No Parcel Post rate returned');
+ return amount;
+}
+module.exports.quoteCart=quoteCart;
 module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');
  if(req.method!=='GET')return res.status(405).json({error:'Method not allowed'});
