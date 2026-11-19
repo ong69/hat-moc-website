@@ -73,7 +73,7 @@ module.exports=async function handler(req,res){
   // Optional private order tracking. Existing email checkout still works if storage is not configured.
   if(process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY){
    try{
-    const base=process.env.SUPABASE_URL.replace(/\\/$/,'')+'/rest/v1/hatmoc_orders';
+    const base=process.env.SUPABASE_URL.trim().split('?')[0].replace(new RegExp('/+$'),'')+'/rest/v1/hatmoc_orders';
     await fetch(base,{method:'POST',headers:{apikey:process.env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+process.env.SUPABASE_SERVICE_ROLE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({reference:ref,customer_name:name,customer_email:email,customer_phone:phone,items,total,delivery_method:method,destination,address,payment_ready:payable,status:payable?'awaiting_payment':'awaiting_quote'}),signal:AbortSignal.timeout(8000)});
    }catch(e){console.error('Optional order tracking unavailable',e.message);}
   }
