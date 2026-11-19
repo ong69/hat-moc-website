@@ -57,10 +57,149 @@
 @media(max-width:920px){.section-head{gap:25px}.section-head h2{font-size:clamp(39px,5.3vw,57px)}}
 @media(max-width:600px){.section-head p{margin-top:22px;font-size:14px}.section-head h2{font-size:clamp(37px,9vw,49px)}.tab{min-height:74px}.visual{border-radius:17px}.section:before{width:90vw}}
 @media(prefers-reduced-motion:reduce){.section:before,.detail.active,.detail.active .visual{animation:none!important}.tab,.tab:after,.tab svg,.visual,.visual .step{transition:none!important}}
- .detail p,.detail h3,.visual .step span,.chip{overflow-wrap:normal;word-break:normal;text-wrap:pretty}.detail h3,.section-head h2{text-wrap:balance}.visual .step{align-items:flex-start}.visual .step span{min-width:0}.chips{align-items:flex-start}@media(max-width:600px){.detail{padding:22px 19px}.visual{padding:21px 18px}.visual .step{gap:10px}.tabs .tab{font-size:12px;padding:10px 8px}} </style></head><body>
+ .detail p,.detail h3,.visual .step span,.chip{overflow-wrap:normal;word-break:normal;text-wrap:pretty}.detail h3,.section-head h2{text-wrap:balance}.visual .step{align-items:flex-start}.visual .step span{min-width:0}.chips{align-items:flex-start}@media(max-width:600px){.detail{padding:22px 19px}.visual{padding:21px 18px}.visual .step{gap:10px}.tabs .tab{font-size:12px;padding:10px 8px}} </style><style id="hm-mobile-customer-information">
+.hero-banner-mobile, .hero-banner-links a > span {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .site-header .header-inner {
+    gap: 10px;
+    padding-block: 10px;
+  }
+
+  .site-header .brand {
+    flex-shrink: 0;
+    font-size: 1.7rem;
+  }
+
+  .site-header .back {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 6px 9px;
+    font-size: .75rem;
+    text-wrap: balance;
+  }
+
+  .hero-full-banner {
+    background: #09291e;
+    line-height: 1.5;
+  }
+
+  .hero-banner-art {
+    position: relative;
+    height: clamp(180px, 64vw, 315px);
+    overflow: hidden;
+  }
+
+  .hero-full-banner .hero-banner-image {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 211%;
+    transform: translateY(-49%);
+  }
+
+  .hero-banner-mobile {
+    display: block;
+    padding: 22px 6% 0;
+  }
+
+  .hero-banner-mobile h1 {
+    margin: 0;
+    font: 400 clamp(2.1875rem, 9.7vw, 3.375rem)/1.06 Georgia, serif;
+    letter-spacing: -.035em;
+    text-wrap: balance;
+  }
+
+  .hero-banner-mobile h1 em {
+    color: var(--gold);
+  }
+
+  .hero-banner-mobile p {
+    margin: 12px 0 0;
+    font-size: .9375rem;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  .hero-banner-links {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: auto;
+    height: auto;
+    padding: 16px 6% 24px;
+  }
+
+  .hero-banner-links a {
+    display: grid;
+    place-items: center;
+    width: auto;
+    height: auto;
+    min-height: 44px;
+    padding: 7px 5px;
+    border: 1px solid var(--gold);
+    color: var(--cream);
+    font-size: .8125rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    text-wrap: balance;
+  }
+
+  .hero-banner-links a:first-child {
+    background: var(--gold);
+    color: var(--deep);
+  }
+
+  .hero-banner-links a > span {
+    display: inline;
+  }
+
+  .hero-link-arrow {
+    display: none;
+  }
+
+  .section-head p {
+    margin-top: 14px;
+  }
+
+  .tabs {
+    gap: 8px;
+  }
+
+  .tabs .tab {
+    gap: 6px;
+    min-height: 54px;
+    padding: 7px 8px;
+    font-size: .8125rem;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .tab svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: .875rem;
+  }
+}
+</style>
+</head><body>
 <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden" xmlns="http://www.w3.org/2000/svg"><symbol id="i-bag" viewBox="0 0 24 24"><path d="M4 8h16l-1.5 12h-13L4 8Z M9 9V6a3 3 0 0 1 6 0v3"/></symbol><symbol id="i-truck" viewBox="0 0 24 24"><path d="M2 5h12v12H2zM14 9h4l4 4v4h-8z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></symbol><symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C8 4 4 9 4 16c0 3 2 4 5 4 7 0 11-6 11-16ZM4 20c3-6 7-9 12-11"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 8.6c0 5-8.8 10.4-8.8 10.4S3.2 13.6 3.2 8.6a4.8 4.8 0 0 1 8.8-2.4 4.8 4.8 0 0 1 8.8 2.4Z"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></symbol><symbol id="i-cup" viewBox="0 0 24 24"><path d="M4 8h13v6a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V8ZM17 9h2a3 3 0 0 1 0 6h-2M7 3v3M12 3v3"/></symbol></svg>
 <header class="site-header"><div class="wrap header-inner"><a href="/" class="brand">Hạt Mộc<small>THE RAW TASTE</small></a><a href="/" class="back">← Back to our collection</a></div></header>
-<main><section class="hero hero-full-banner" aria-label="About our coffee and cashews"><img class="hero-banner-image" src="/assets/a_polished_elegant_website_hero_banner_in_deep_fo.png" alt="About our coffee and cashews — Vietnamese iced coffee and a bowl of roasted cashews" fetchpriority="high"><div class="hero-banner-links"><a href="#explore" aria-label="Ordering and pickup"></a><a href="/#shop" aria-label="Shop coffee and cashews"></a></div></section>
+<main><section class="hero hero-full-banner" aria-label="About our coffee and cashews"><div class="hero-banner-art"><img class="hero-banner-image" src="/assets/a_polished_elegant_website_hero_banner_in_deep_fo.png" alt="About our coffee and cashews — Vietnamese iced coffee and a bowl of roasted cashews" fetchpriority="high"></div><div class="hero-banner-mobile">
+  <h1>About our<br><em>coffee &amp; cashews.</em></h1>
+  <p>Find our ingredients, learn how to order and see your pickup and delivery options.</p>
+</div><div class="hero-banner-links"><a href="#explore" aria-label="Ordering and pickup"><span>Ordering &amp; pickup</span></a><a href="/#shop" aria-label="Shop coffee and cashews"><span>Shop the collection</span></a></div></section>
 <section class="section" id="explore"><div class="wrap"><div class="section-head"><div><span class="eyebrow" style="color:#9d7830">CUSTOMER INFORMATION</span><h2>Everything you need<br><span class="heading-accent">before you order.</span></h2></div><p>Wondering what’s in our products or how pickup works? Choose a topic and we’ll show you.</p></div>
 <div class="tabs" role="tablist" aria-label="Customer information topics">
 <button class="tab" id="tab-order" role="tab" aria-controls="panel-order" aria-selected="true" tabindex="0" data-target="order"><svg fill="none" stroke="currentColor" stroke-width="1.7"><use href="#i-bag"/></svg>Ordering</button>
@@ -74,5 +213,5 @@
 <article class="detail" id="panel-care" role="tabpanel" aria-labelledby="tab-care" hidden><div><span class="num">04 / CUSTOMER CARE</span><h3>Something not right with your order?</h3><p>If something arrives damaged, incorrect or not as described, please message us with your order details. A photo can help us understand the issue.</p><p>We'll discuss an appropriate remedy in accordance with <strong>Australian Consumer Law</strong>. Your consumer guarantees are not excluded by this policy.</p><p>We're a small local business, and we want every order to be a good experience.</p></div><div class="visual"><span class="visual-label">IF THERE'S A PROBLEM</span><div class="step"><b>01</b><span>Tell us what happened</span></div><div class="step"><b>02</b><span>Share your order details</span></div><div class="step"><b>03</b><span>We'll work towards a fair resolution</span></div></div></article>
 <article class="detail" id="panel-privacy" role="tabpanel" aria-labelledby="tab-privacy" hidden><div><span class="num">05 / YOUR PRIVACY</span><h3>What happens to your details?</h3><p>We use the name, email address, phone number, product selection and pickup or delivery details you provide at checkout to process your order, send confirmation emails and arrange fulfilment.</p><p>Order information is sent through our website and email services. Messages sent through Facebook or Instagram are also subject to those platforms' privacy practices. Our website uses Google Analytics to understand visits and interactions.</p><p>Please don't share sensitive personal or payment card details in chat. Contact us through our social accounts if you have questions about the information you've provided.</p></div><div class="visual"><span class="visual-label">ABOUT YOUR DETAILS</span><div class="visual-big">How we use<br>your information.</div><div class="chips"><span class="chip">Order enquiries</span><span class="chip">Pickup details</span><span class="chip">Website analytics</span></div><div class="visual-small">Need to ask about your information? Message Hạt Mộc directly.</div></div></article>
 </div></section>
-<section class="bottom-cta"><div class="wrap cta-inner"><div><span class="eyebrow">NEED A HAND?</span><h2>Have a question? Just ask.</h2><p>Message us about our products, pickup or an order.</p></div><a class="btn gold" href="https://m.me/hatmoc.australia" target="_blank" rel="noopener noreferrer">MESSAGE HẠT MỘC ↗</a></div></section></main><footer class="site-footer"><div class="wrap footer-inner"><span>Hạt Mộc · Vietnamese coffee &amp; roasted cashews</span><span><a href="/">Back to Hạt Mộc</a></span></div></footer>
+<section class="bottom-cta"><div class="wrap cta-inner"><div><span class="eyebrow">NEED A HAND?</span><h2>Have a question? Just ask.</h2><p>Message us about our products, pickup or an order.</p></div><a class="btn gold" href="https://m.me/hatmoc.australia" target="_blank" rel="noopener noreferrer">MESSAGE HẠT MỘC<span class="hero-link-arrow" aria-hidden="true"> ↗</span></a></div></section></main><footer class="site-footer"><div class="wrap footer-inner"><span>Hạt Mộc · Vietnamese coffee &amp; roasted cashews</span><span><a href="/">Back to Hạt Mộc</a></span></div></footer>
 <script>(function(){const tabs=[...document.querySelectorAll('[role="tab"]')];const panels=[...document.querySelectorAll('[role="tabpanel"]')];function activate(tab,focus){tabs.forEach(t=>{let selected=t===tab;t.setAttribute('aria-selected',String(selected));t.tabIndex=selected?0:-1});panels.forEach(p=>{let selected=p.id==='panel-'+tab.dataset.target;p.hidden=!selected;p.classList.toggle('active',selected)});if(focus)tab.focus()}const hashTab=document.querySelector(location.hash&&/^#tab-(order|delivery|products|care|privacy)$/.test(location.hash)?location.hash:'#tab-order');if(hashTab)activate(hashTab,false);window.addEventListener('hashchange',()=>{const target=document.querySelector(/^#tab-(order|delivery|products|care|privacy)$/.test(location.hash)?location.hash:'#tab-order');if(target)activate(target,false)});tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>activate(tab,false));tab.addEventListener('keydown',e=>{let n;if(e.key==='ArrowRight')n=(i+1)%tabs.length;else if(e.key==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=tabs.length-1;if(n!==undefined){e.preventDefault();activate(tabs[n],true)}})});if('IntersectionObserver' in window&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){const revealItems=document.querySelectorAll('.section-head,.tabs,.bottom-cta .cta-inner');revealItems.forEach(el=>el.classList.add('reveal-on-scroll'));const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}}),{threshold:.12});revealItems.forEach(el=>observer.observe(el))}const hash=location.hash.replace('#','');const initial=tabs.find(t=>t.dataset.target===hash);if(initial)activate(initial,false)})();</script></body></html>
