@@ -31,7 +31,7 @@ module.exports=async function handler(req,res){
  const localFree=method==='local'&&isApprovedLocal(destination);
  if(method==='local'&&!localFree)return res.status(400).json({error:'Free local delivery is not available for that suburb. Please select an approved suburb, free Bankstown pickup or Australia-wide postage.'});
  const pickup=method==='pickup',local=method==='local',postReady=method==='post'&&postageAmount!==null;
- const fixedCoffee=postReady&&items.length===1&&['coffee','cashew150'].includes(items[0].id)&&items[0].qty===1;
+ const fixedCoffee=postReady&&items.length===1&&['coffee','cashew150','cashew300'].includes(items[0].id)&&items[0].qty===1;
  const payable=pickup||postReady||localFree;
  const postage=pickup?'FREE pickup':localFree?'FREE local delivery (approved suburb)':local?'Local delivery eligibility not confirmed':postReady?money(postageAmount)+(fixedCoffee?' MyPost Business Parcel Post fixed':' Australia Post Parcel Post estimate'):'Awaiting packing and postage confirmation';
  const total=payable?money(subtotal+(postReady?postageAmount:0)):'Pending delivery confirmation';
