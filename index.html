@@ -413,7 +413,7 @@ function showSuggestions(){
  const source=method.value==='local'?fallback:(places.length?places:fallback);
  if(!source.length){suggestions.hidden=true;return;}
  if(query.length===1&&method.value!=='local'){suggestions.hidden=true;return;}
- const matches=(query.length===0?fallback:source.filter(p=>p.postcode.startsWith(query)||p.suburb.toLowerCase().startsWith(query))).sort((a,b)=>{const score=p=>p.suburb.toLowerCase()===query?0:p.suburb.toLowerCase().startsWith(query)?1:p.postcode===query?2:3;return score(a)-score(b)||a.suburb.localeCompare(b.suburb)||a.postcode.localeCompare(b.postcode);}).slice(0,method.value==='local'?deliveryZones.length:9);
+ const matches=(query.length===0?(method.value==='local'?fallback:[]):source.filter(p=>p.postcode.startsWith(query)||p.suburb.toLowerCase().startsWith(query))).sort((a,b)=>{const score=p=>p.suburb.toLowerCase()===query?0:p.suburb.toLowerCase().startsWith(query)?1:p.postcode===query?2:3;return score(a)-score(b)||a.suburb.localeCompare(b.suburb)||a.postcode.localeCompare(b.postcode);}).slice(0,method.value==='local'?deliveryZones.length:9);
  for(const p of matches){
   const button=document.createElement('button');button.type='button';button.setAttribute('role','option');
   button.textContent=p.suburb+', '+p.state+' '+p.postcode;
