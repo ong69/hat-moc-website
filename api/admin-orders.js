@@ -11,7 +11,7 @@ module.exports=async(req,res)=>{
  const headers={apikey:process.env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+process.env.SUPABASE_SERVICE_ROLE_KEY,'Content-Type':'application/json'};
  try{
  if(req.method==='GET'){
-  const r=await fetch(base+'?select=reference,created_at,customer_name,customer_email,items,total,delivery_method,destination,status,payment_confirmed_at,confirmation_sent_at&order=created_at.desc&limit=100',{headers,signal:AbortSignal.timeout(8000)});
+  const r=await fetch(base+'?select=reference,created_at,customer_name,customer_email,items,total,delivery_method,destination,payment_ready,status,payment_confirmed_at,confirmation_sent_at&order=created_at.desc&limit=100',{headers,signal:AbortSignal.timeout(8000)});
   if(!r.ok)throw Error('Database error');
   return json(res,200,{orders:await r.json()});
  }
