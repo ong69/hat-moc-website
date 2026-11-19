@@ -4,7 +4,7 @@ const json=(res,status,data)=>res.status(status).json(data);
 const eq=(a,b)=>{const x=Buffer.from(String(a||'')),y=Buffer.from(String(b||''));return x.length===y.length&&crypto.timingSafeEqual(x,y)};
 module.exports=async(req,res)=>{
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Robots-Tag','noindex, nofollow');
- if(!['GET','POST'].includes(req.method))return json(res,405,{error:'Method not allowed'});
+ if(!['GET','POST','DELETE'].includes(req.method))return json(res,405,{error:'Method not allowed'});
  if(!process.env.HATMOC_ADMIN_PASSWORD||!process.env.SUPABASE_URL||!process.env.SUPABASE_SERVICE_ROLE_KEY)return json(res,503,{error:'Dashboard setup incomplete. Configure private Vercel environment variables.'});
  if(!eq((req.headers.authorization||'').replace(/^Bearer\s+/i,''),process.env.HATMOC_ADMIN_PASSWORD))return json(res,401,{error:'Incorrect password'});
  const base=process.env.SUPABASE_URL.replace(/\/$/,'')+'/rest/v1/hatmoc_orders';
@@ -14,6 +14,20 @@ module.exports=async(req,res)=>{
   const r=await fetch(base+'?select=reference,created_at,customer_name,customer_email,items,total,delivery_method,destination,payment_ready,status,payment_confirmed_at,confirmation_sent_at&order=created_at.desc&limit=100',{headers,signal:AbortSignal.timeout(8000)});
   if(!r.ok)throw Error('Database error');
   return json(res,200,{orders:await r.json()});
+ }
+ if(req.method==='DELETE'){
+  const {reference,confirmation}=req.body||{};
+  if(!/^HM-[A-Z0-9]{4,12}$/.test(reference||'')||confirmation!==reference)return json(res,400,{error:'Confirm the exact order reference to delete'});
+  const target=base+'?reference=eq.'+encodeURIComponent(reference);
+  const read=await fetch(target+'&select=reference',{headers,signal:AbortSignal.timeout(8000)});
+  if(!read.ok)throw Error('Database error');
+  const matches=await read.json();
+  if(matches.length!==1)return json(res,404,{error:'Order not found'});
+  const deleted=await fetch(target,{method:'DELETE',headers:{...headers,Prefer:'return=representation'},signal:AbortSignal.timeout(8000)});
+  if(!deleted.ok)throw Error('Could not delete order');
+  const rows=await deleted.json();
+  if(rows.length!==1)return json(res,409,{error:'Order deletion could not be verified'});
+  return json(res,200,{ok:true,deleted:reference});
  }
  const {reference,status,sendConfirmation}=req.body||{};
  if(!/^HM-[A-Z0-9]{4,12}$/.test(reference||'')||!allowed.includes(status))return json(res,400,{error:'Invalid order or status'});
