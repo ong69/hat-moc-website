@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+<channel>
+<title>Hạt Mộc Products</title>
+<link>https://www.hatmoc.com/</link>
+<description>Vietnamese coffee beans and roasted cashews from Hanoi</description>
+<item>
+<g:id>coffee-500</g:id>
+<g:title>Hạt Mộc Vietnamese Robusta Coffee Beans 500g</g:title>
+<g:description>Vietnamese Robusta coffee beans sourced from Hanoi, Vietnam. Bold flavour, 500g pack.</g:description>
+<g:link>https://www.hatmoc.com/#order-quote</g:link>
+<g:image_link>https://www.hatmoc.com/assets/coffee.jpg</g:image_link>
+<g:availability>in_stock</g:availability>
+<g:condition>new</g:condition>
+<g:price>24.90 AUD</g:price>
+<g:brand>Hạt Mộc</g:brand>
+<g:identifier_exists>no</g:identifier_exists>
+<g:google_product_category>Food, Beverages &amp; Tobacco &gt; Food Items</g:google_product_category>
+</item>
+<item>
+<g:id>cashews-150</g:id>
+<g:title>Hạt Mộc Roasted Cashews 150g</g:title>
+<g:description>Roasted cashew nuts sourced from Hanoi, Vietnam. 150g pack.</g:description>
+<g:link>https://www.hatmoc.com/#order-quote</g:link>
+<g:image_link>https://www.hatmoc.com/assets/cashews.jpg</g:image_link>
+<g:availability>in_stock</g:availability>
+<g:condition>new</g:condition>
+<g:price>5.50 AUD</g:price>
+<g:brand>Hạt Mộc</g:brand>
+<g:identifier_exists>no</g:identifier_exists>
+<g:google_product_category>Food, Beverages &amp; Tobacco &gt; Food Items</g:google_product_category>
+</item>
+<item>
+<g:id>cashews-300</g:id>
+<g:title>Hạt Mộc Roasted Cashews 300g</g:title>
+<g:description>Roasted cashew nuts sourced from Hanoi, Vietnam. 300g pack.</g:description>
+<g:link>https://www.hatmoc.com/#order-quote</g:link>
+<g:image_link>https://www.hatmoc.com/assets/cashews.jpg</g:image_link>
+<g:availability>in_stock</g:availability>
+<g:condition>new</g:condition>
+<g:price>10.50 AUD</g:price>
+<g:brand>Hạt Mộc</g:brand>
+<g:identifier_exists>no</g:identifier_exists>
+<g:google_product_category>Food, Beverages &amp; Tobacco &gt; Food Items</g:google_product_category>
+</item>
+<item>
+<g:id>cashews-500</g:id>
+<g:title>Hạt Mộc Roasted Cashews 500g</g:title>
+<g:description>Roasted cashew nuts sourced from Hanoi, Vietnam. 500g pack.</g:description>
+<g:link>https://www.hatmoc.com/#order-quote</g:link>
+<g:image_link>https://www.hatmoc.com/assets/cashews.jpg</g:image_link>
+<g:availability>in_stock</g:availability>
+<g:condition>new</g:condition>
+<g:price>16.90 AUD</g:price>
+<g:brand>Hạt Mộc</g:brand>
+<g:identifier_exists>no</g:identifier_exists>
+<g:google_product_category>Food, Beverages &amp; Tobacco &gt; Food Items</g:google_product_category>
+</item>
+</channel>
+</rss>
