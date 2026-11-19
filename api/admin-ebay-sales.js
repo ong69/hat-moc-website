@@ -27,7 +27,7 @@ module.exports=async(req,res)=>{
    const changes={status:body.status};
    if(body.product!==undefined||body.quantity!==undefined||body.total!==undefined||body.sale_date!==undefined){
     const product=String(body.product||'').trim(),quantity=Number(body.quantity),total=Number(body.total),sale_date=String(body.sale_date||'');
-    if(product.length<2||product.length>120||!Number.isInteger(quantity)||quantity<1||quantity>999||!Number.isFinite(total)||total<0||total>100000||!/^\\d{4}-\\d{2}-\\d{2}$/.test(sale_date)||Number.isNaN(Date.parse(sale_date)))return res.status(400).json({error:'Check the edited sale details'});
+    if(product.length<2||product.length>120||!Number.isInteger(quantity)||quantity<1||quantity>999||!Number.isFinite(total)||total<0||total>100000||!/^\d{4}-\d{2}-\d{2}$/.test(sale_date)||Number.isNaN(Date.parse(sale_date)))return res.status(400).json({error:'Check the edited sale details'});
     Object.assign(changes,{product,quantity,total,sale_date});
    }
    const r=await fetch(target,{method:'PATCH',headers:{...headers,Prefer:'return=representation'},body:JSON.stringify(changes),signal:AbortSignal.timeout(8000)});
