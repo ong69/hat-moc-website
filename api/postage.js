@@ -8,7 +8,7 @@ const products={
 };
 // Verified MyPost Business customer quote for the tested single coffee parcel (0.6kg, 25x15x10cm).
 // Do not extrapolate this account-specific rate to smaller bags or multi-item orders.
-function verifiedCoffeeRate(items){return Array.isArray(items)&&items.length===1&&items[0]?.id==='coffee'&&items[0]?.qty===1?11.70:null;}
+function verifiedCoffeeRate(items){if(!Array.isArray(items)||items.length!==1||items[0]?.qty!==1)return null;return items[0].id==='coffee'?11.70:items[0].id==='cashew150'?10.20:null;}
 async function quoteCart(items,postcode){
  if(!Array.isArray(items)||items.length<1||items.length>5||!/^[0-9]{4}$/.test(String(postcode||'')))throw Error('Invalid order or destination postcode');
  const fixed=verifiedCoffeeRate(items);if(fixed!==null)return fixed;
@@ -37,7 +37,7 @@ module.exports=async function handler(req,res){
  const quantities={};
  for(const entry of items){if(!entry||!products[entry.id]||!Number.isInteger(entry.qty)||entry.qty<1||entry.qty>30)return res.status(400).json({error:'Invalid product or quantity.'});quantities[entry.id]=(quantities[entry.id]||0)+entry.qty;}
  const fixed=verifiedCoffeeRate(items);
- if(fixed!==null){const subtotal=24.90;return res.status(200).json({postage:fixed,subtotal,total:Number((subtotal+fixed).toFixed(2)),service:'MyPost Business Parcel Post',estimated:false,notice:'Fixed postage for one 500g coffee bag, subject to the tested packed size.'});}
+ if(fixed!==null){const subtotal=items[0].id==='coffee'?24.90:5.50;return res.status(200).json({postage:fixed,subtotal,total:Number((subtotal+fixed).toFixed(2)),service:'MyPost Business Parcel Post',estimated:false,notice:'Fixed MyPost Business rate for this tested single-item parcel, subject to actual packed size.'});}
  const entries=Object.entries(quantities);
  const totalBags=entries.reduce((n,[id,qty])=>n+qty*(id==='bundle'?2:1),0);
  const subtotal=entries.reduce((n,[id,qty])=>n+products[id].price*qty,0);
