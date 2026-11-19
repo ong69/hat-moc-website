@@ -1,12 +1,12 @@
-const crypto=require('crypto');
+const {isAuthorized,sameOrigin}=require('./_admin-auth');
 const allowed=['awaiting_quote','awaiting_payment','payment_claimed','paid','fulfilled'];
 const json=(res,status,data)=>res.status(status).json(data);
-const eq=(a,b)=>{const x=Buffer.from(String(a||'')),y=Buffer.from(String(b||''));return x.length===y.length&&crypto.timingSafeEqual(x,y)};
 module.exports=async(req,res)=>{
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Robots-Tag','noindex, nofollow');
  if(!['GET','POST','DELETE'].includes(req.method))return json(res,405,{error:'Method not allowed'});
  if(!process.env.HATMOC_ADMIN_PASSWORD||!process.env.SUPABASE_URL||!process.env.SUPABASE_SERVICE_ROLE_KEY)return json(res,503,{error:'Dashboard setup incomplete. Configure private Vercel environment variables.'});
- if(!eq((req.headers.authorization||'').replace(/^Bearer\s+/i,''),process.env.HATMOC_ADMIN_PASSWORD))return json(res,401,{error:'Incorrect password'});
+ if(!isAuthorized(req))return json(res,401,{error:'Incorrect password'});
+ if(!sameOrigin(req))return json(res,403,{error:'Invalid request origin'});
  const base=process.env.SUPABASE_URL.replace(/\/$/,'')+'/rest/v1/hatmoc_orders';
  const headers={apikey:process.env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+process.env.SUPABASE_SERVICE_ROLE_KEY,'Content-Type':'application/json'};
  try{
