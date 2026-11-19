@@ -494,7 +494,8 @@ if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduc
    const small=document.createElement('small');
    small.textContent='AUD · '+choice.value+'g';
    price.append(small);
-   order.textContent='ADD '+choice.value+'G CASHEWS — 
+   order.textContent='ADD '+choice.value+'G CASHEWS — '+String.fromCharCode(36)+choice.dataset.price+' ↗';
+   order.setAttribute('aria-label','Add '+choice.value+'g roasted cashews to your order');
  }
  choices.forEach(choice=>choice.addEventListener('change',update));
  update();
