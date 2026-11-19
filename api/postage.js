@@ -6,8 +6,12 @@ const products={
  cashew500:{price:16.9,grams:500,h:16,w:10,d:5},
  bundle:{price:39.9,grams:1000,h:25,w:15,d:13}
 };
+// Verified MyPost Business customer quote for the tested single coffee parcel (0.6kg, 25x15x10cm).
+// Do not extrapolate this account-specific rate to smaller bags or multi-item orders.
+function verifiedCoffeeRate(items){return Array.isArray(items)&&items.length===1&&items[0]?.id==='coffee'&&items[0]?.qty===1?11.70:null;}
 async function quoteCart(items,postcode){
  if(!Array.isArray(items)||items.length<1||items.length>5||!/^[0-9]{4}$/.test(String(postcode||'')))throw Error('Invalid order or destination postcode');
+ const fixed=verifiedCoffeeRate(items);if(fixed!==null)return fixed;
  const quantities={};
  for(const entry of items){if(!entry||!products[entry.id]||!Number.isInteger(entry.qty)||entry.qty<1||entry.qty>30)throw Error('Invalid product quantity');quantities[entry.id]=(quantities[entry.id]||0)+entry.qty;}
  const entries=Object.entries(quantities),bags=entries.reduce((n,[id,q])=>n+q*(id==='bundle'?2:1),0),grams=entries.reduce((n,[id,q])=>n+products[id].grams*q,0),weight=Number(((grams+100)/1000).toFixed(3));
@@ -32,6 +36,8 @@ module.exports=async function handler(req,res){
  if(!Array.isArray(items)||items.length<1||items.length>5||!/^[0-9]{4}$/.test(String(postcode||'')))return res.status(400).json({error:'Invalid items or postcode.'});
  const quantities={};
  for(const entry of items){if(!entry||!products[entry.id]||!Number.isInteger(entry.qty)||entry.qty<1||entry.qty>30)return res.status(400).json({error:'Invalid product or quantity.'});quantities[entry.id]=(quantities[entry.id]||0)+entry.qty;}
+ const fixed=verifiedCoffeeRate(items);
+ if(fixed!==null){const subtotal=24.90;return res.status(200).json({postage:fixed,subtotal,total:Number((subtotal+fixed).toFixed(2)),service:'MyPost Business Parcel Post',estimated:false,notice:'Fixed postage for one 500g coffee bag, subject to the tested packed size.'});}
  const entries=Object.entries(quantities);
  const totalBags=entries.reduce((n,[id,qty])=>n+qty*(id==='bundle'?2:1),0);
  const subtotal=entries.reduce((n,[id,qty])=>n+products[id].price*qty,0);
