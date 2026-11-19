@@ -411,7 +411,7 @@ function showSuggestions(){
  if(!suggestions||method.value==='pickup')return;
  const query=postcode.value.trim().toLowerCase();suggestions.replaceChildren();
  if(query.length<2||!places.length){suggestions.hidden=true;return;}
- const matches=places.filter(p=>p.postcode.startsWith(query)||p.suburb.toLowerCase().startsWith(query)).slice(0,9);
+ const matches=places.filter(p=>p.postcode.startsWith(query)||p.suburb.toLowerCase().startsWith(query)).sort((a,b)=>{const score=p=>p.suburb.toLowerCase()===query?0:p.suburb.toLowerCase().startsWith(query)?1:p.postcode===query?2:3;return score(a)-score(b)||a.suburb.localeCompare(b.suburb)||a.postcode.localeCompare(b.postcode);}).slice(0,9);
  for(const p of matches){
   const button=document.createElement('button');button.type='button';button.setAttribute('role','option');
   button.textContent=p.suburb+', '+p.state+' '+p.postcode;
@@ -426,7 +426,19 @@ async function loadPlaces(){
   const response=await fetch('https://raw.githubusercontent.com/matthewproctor/australianpostcodes/master/australian_postcodes.json');
   if(!response.ok)throw Error('Unavailable');
   const data=await response.json();
-  places=data.filter(p=>p.postcode&&p.locality).map(p=>({postcode:String(p.postcode).padStart(4,'0'),suburb:String(p.locality),state:String(p.state||'')}));
+  // Only ordinary geographic delivery localities: exclude PO boxes, large-volume receivers and facilities.
+  const seen=new Set();
+  places=data.filter(p=>{
+   const pc=String(p.postcode||'').padStart(4,'0');
+   const suburb=String(p.locality||'').trim();
+   const state=String(p.state||'').trim().toUpperCase();
+   const type=String(p.type||'').trim().toLowerCase();
+   if(!/^\d{4}$/.test(pc)||!suburb||!['NSW','ACT','VIC','QLD','SA','WA','TAS','NT'].includes(state))return false;
+   if(type&&type!=='delivery area')return false;
+   if(/\b(?:po box|post office|parcel locker|westfield|shopping centre|shopping center|mail centre|mail center|gpo boxes|private boxes)\b/i.test(suburb))return false;
+   const key=[suburb.toLowerCase(),state,pc].join('|');
+   if(seen.has(key))return false;seen.add(key);return true;
+  }).map(p=>({postcode:String(p.postcode).padStart(4,'0'),suburb:String(p.locality).trim(),state:String(p.state).trim().toUpperCase()}));
   loaded=true;
  }catch(e){status.textContent='Suburb search unavailable. You can still enter a four-digit postcode.';}
  finally{loading=false;showSuggestions();}
