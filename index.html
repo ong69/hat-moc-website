@@ -382,7 +382,7 @@ function update(){
  quote=null;requestId++;clearTimeout(timer);
  subtotal.textContent=money(cartSubtotal());
  const pickup=method.value==='pickup';wrap.hidden=pickup;postcode.disabled=pickup;postcode.required=!pickup;const addressWrap=el('hm-delivery-address-wrap'),address=el('hm-delivery-address');if(addressWrap)addressWrap.hidden=pickup;if(address){address.disabled=pickup;address.required=!pickup;}
- if(suggestions)suggestions.hidden=true;
+ if(suggestions&&document.activeElement!==postcode)suggestions.hidden=true;
  const disclaimer=el('hm-postage-disclaimer');if(disclaimer)disclaimer.hidden=method.value!=='post';
  shipping.textContent=pickup?'Bankstown pickup':method.value==='local'?'Local delivery':'Australia Post postage';
  if(quoteLine)quoteLine.textContent=pickup?'FREE':method.value==='local'?'Enter your suburb':'Enter destination';
@@ -410,10 +410,10 @@ function showSuggestions(){
  if(!suggestions||method.value==='pickup')return;
  const query=postcode.value.trim().toLowerCase();suggestions.replaceChildren();
  const fallback=deliveryZones.map(p=>({...p,state:'NSW'}));
- const source=places.length?places:fallback;
+ const source=method.value==='local'?fallback:(places.length?places:fallback);
  if(!source.length){suggestions.hidden=true;return;}
- if(query.length===1){suggestions.hidden=true;return;}
- const matches=(query.length===0?fallback:source.filter(p=>p.postcode.startsWith(query)||p.suburb.toLowerCase().startsWith(query))).sort((a,b)=>{const score=p=>p.suburb.toLowerCase()===query?0:p.suburb.toLowerCase().startsWith(query)?1:p.postcode===query?2:3;return score(a)-score(b)||a.suburb.localeCompare(b.suburb)||a.postcode.localeCompare(b.postcode);}).slice(0,9);
+ if(query.length===1&&method.value!=='local'){suggestions.hidden=true;return;}
+ const matches=(query.length===0?fallback:source.filter(p=>p.postcode.startsWith(query)||p.suburb.toLowerCase().startsWith(query))).sort((a,b)=>{const score=p=>p.suburb.toLowerCase()===query?0:p.suburb.toLowerCase().startsWith(query)?1:p.postcode===query?2:3;return score(a)-score(b)||a.suburb.localeCompare(b.suburb)||a.postcode.localeCompare(b.postcode);}).slice(0,method.value==='local'?deliveryZones.length:9);
  for(const p of matches){
   const button=document.createElement('button');button.type='button';button.setAttribute('role','option');
   button.textContent=p.suburb+', '+p.state+' '+p.postcode;
@@ -460,8 +460,9 @@ function send(channel){if(!entries().length){status.textContent='Add at least on
 [product,qty,method].forEach(field=>{field.addEventListener('change',update);field.addEventListener('input',update);});
 postcode.addEventListener('focus',()=>{loadPlaces();showSuggestions();});
 postcode.addEventListener('click',()=>showSuggestions());
+method.addEventListener('change',()=>{chosen=null;postcode.value='';postcode.placeholder=method.value==='local'?'Choose an approved suburb':'Start typing a suburb or postcode';update();});
 postcode.addEventListener('input',()=>{chosen=null;postcode.setCustomValidity('');update();showSuggestions();});
-postcode.addEventListener('blur',()=>setTimeout(()=>{if(suggestions)suggestions.hidden=true;},180));
+postcode.addEventListener('blur',()=>setTimeout(()=>{if(suggestions)suggestions.hidden=true;if(method.value==='local'&&postcode.value.trim()&&!localApproved()){postcode.value='';chosen=null;update();status.textContent='Please select one of the approved free delivery suburbs.';}},180));
 el('hm-submit-order').addEventListener('click',async()=>{
  const button=el('hm-submit-order'),notice=el('hm-submit-status');
  if(!entries().length){notice.textContent='Please add a product to your order first.';return;}
