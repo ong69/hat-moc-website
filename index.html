@@ -327,7 +327,7 @@ footer.hm-footer-refined .hm-footer-links a:hover{text-decoration:underline;text
 .hm-order-form #hm-postage-disclaimer{display:block;line-height:1.5;margin-top:8px}
 .hm-order-form #hm-postage-disclaimer[hidden]{display:none}
 .hm-order-form.hm-cart-empty .hm-delivery-section,.hm-order-form.hm-cart-empty .hm-checkout-summary,.hm-order-form.hm-cart-empty .hm-checkout-details{display:none}
-.hm-order-form.hm-cart-empty .hm-cart{border-bottom:0;padding-bottom:0}
+.hm-order-form.hm-cart-empty .hm-cart{border-bottom:0;padding-bottom:0}.hm-order-form.hm-cart-empty #hm-order-status,#hm-order-status[hidden]{display:none!important}
 @media(max-width:600px){.hm-order-form{gap:18px}.hm-order-form .hm-checkout-section-head strong{font-size:15px}}
 </style></head><body><div class="top">FREE BANKSTOWN PICKUP · LOCAL DELIVERY · AUSTRALIA-WIDE SHIPPING · DISPATCH WITHIN 2 BUSINESS DAYS</div><header><a href="#" class="logo" aria-label="Hạt Mộc home">Hạt Mộc<small>THE RAW TASTE</small></a><nav aria-label="Main navigation"><a href="#shop">Our collection</a><a href="#story">Our roots</a><a href="#pickup">Pickup & delivery</a><a class="btn outline" href="https://m.me/hatmoc.australia" target="_blank" rel="noopener noreferrer">MESSAGE TO ORDER ↗</a></nav></header>
 <main><section class="hero"><div class="hero-art"><div class="cafe-scene"><img src="assets/hanoi-cafe.png" alt="Vietnamese café scene with a woman enjoying coffee and Hạt Mộc coffee and cashews on the table" fetchpriority="high"></div></div><div class="hero-copy"><span class="eyebrow">HANOI → SYDNEY · THE RAW TASTE</span><h1>Big on flavour.<br><em>Fresh from Hanoi.</em></h1><p>A signature selection, chosen for flavour. Bold Hanoi coffee beans and golden roasted cashews — Vietnamese favourites worth savouring, brought to your table in Sydney.</p><div class="actions"><a class="btn" href="#shop">SHOP COFFEE & CASHEWS ↘</a><a class="btn outline" href="https://m.me/hatmoc.australia" target="_blank" rel="noopener noreferrer">RESERVE YOUR BAGS ↗</a></div><div class="promise"><span aria-hidden="true">✧</span><div><strong>Our satisfaction promise</strong><span>Not happy? Message us and we’ll make it right.</span></div></div><div class="hero-foot">FREE BANKSTOWN PICKUP · LOCAL DELIVERY · AUSTRALIA-WIDE SHIPPING · DISPATCH WITHIN 2 BUSINESS DAYS</div></div></section>
@@ -444,7 +444,7 @@ function cartIcon(id){
 }
 function renderCart(){
  cartBox.replaceChildren();const count=entries().reduce((a,[id,n])=>a+n,0);cartCount.textContent=count+' '+(count===1?'item':'items');
- if(!entries().length){cartBox.textContent='Your cart is empty. Add coffee or cashews to get started.';el('hm-order-form').classList.add('hm-cart-empty');return;}el('hm-order-form').classList.remove('hm-cart-empty');
+ if(!entries().length){cartBox.textContent='Your cart is empty. Add coffee or cashews to get started.';status.textContent='';status.hidden=true;el('hm-order-form').classList.add('hm-cart-empty');return;}status.hidden=false;el('hm-order-form').classList.remove('hm-cart-empty');
  for(const [id,n] of entries()){
   const row=document.createElement('div');row.className='hm-cart-row';
   const productInfo=document.createElement('span');productInfo.className='hm-cart-product';productInfo.append(cartIcon(id));
@@ -459,7 +459,7 @@ function renderCart(){
  }
 }
 function changeCart(id,delta){cart[id]=Math.max(0,Math.min(30,(cart[id]||0)+delta));if(!cart[id])delete cart[id];renderCart();update();if(!entries().length){status.textContent='';}else if(delta<0){status.textContent='Your order has been updated.';}}
-window.hmAddToCart=(id,n)=>{if(!(id in prices))return;changeCart(id,n);status.textContent=names[id]+' added to your order. You can add another product.';};
+window.hmAddToCart=(id,n)=>{if(!(id in prices))return;changeCart(id,n);if(entries().length&&n>0){status.hidden=false;status.textContent=names[id]+' added to your order.';}};
 const localApproved=()=>{const m=postcode.value.trim().match(/^(.+?),?\s*(?:NSW\s+)?(\d{4})$/i);if(!m)return false;const suburb=m[1].replace(/,\s*NSW$/i,'').trim().toLowerCase();return deliveryZones.some(z=>z.suburb.toLowerCase()===suburb&&z.postcode===m[2]);};
 const localChecked=()=>method.value==='local'&&postcode.value.trim().length>0;
 const localUnavailable=()=>localChecked()&&!localApproved();
