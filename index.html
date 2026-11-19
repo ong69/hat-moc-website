@@ -377,6 +377,8 @@ function renderCart(){cartBox.replaceChildren();cartCount.textContent=entries().
 function changeCart(id,delta){cart[id]=Math.max(0,Math.min(30,(cart[id]||0)+delta));if(!cart[id])delete cart[id];renderCart();update();}
 window.hmAddToCart=(id,n)=>{if(!(id in prices))return;changeCart(id,n);status.textContent=names[id]+' added to your order. You can add another product.';};
 const localApproved=()=>{const m=postcode.value.trim().match(/^(.+?),?\s*(?:NSW\s+)?(\d{4})$/i);if(!m)return false;const suburb=m[1].replace(/,\s*NSW$/i,'').trim().toLowerCase();return deliveryZones.some(z=>z.suburb.toLowerCase()===suburb&&z.postcode===m[2]);};
+const localChecked=()=>method.value==='local'&&postcode.value.trim().length>0;
+const localUnavailable=()=>localChecked()&&!localApproved();
 const postal=()=>{const match=postcode.value.trim().match(/(?:^|\s)(\d{4})$/);return match?match[1]:null;};
 function update(){
  quote=null;requestId++;clearTimeout(timer);
@@ -384,9 +386,9 @@ function update(){
  const pickup=method.value==='pickup';wrap.hidden=pickup;postcode.disabled=pickup;postcode.required=!pickup;const addressWrap=el('hm-delivery-address-wrap'),address=el('hm-delivery-address');if(addressWrap)addressWrap.hidden=pickup;if(address){address.disabled=pickup;address.required=!pickup;}
  if(suggestions)suggestions.hidden=true;
  const disclaimer=el('hm-postage-disclaimer');if(disclaimer)disclaimer.hidden=method.value!=='post';
- shipping.textContent=pickup?'Free Bankstown pickup':method.value==='local'?'Free local delivery for approved suburbs only':'Australia-wide: Australia Post postage estimate; dispatch within 2 business days';
+ shipping.textContent=pickup?'Free Bankstown pickup':method.value==='local'?(localUnavailable()?'Free local delivery unavailable for this suburb — choose Australia-wide postage or Bankstown pickup':'Free local delivery for approved suburbs only'):'Australia-wide: Australia Post postage estimate; dispatch within 2 business days';
  if(quoteLine)quoteLine.textContent=pickup?'Postage: FREE':method.value==='local'?'Free delivery: choose an approved suburb':'Postage: enter destination to calculate';
- if(method.value==='local'){const approved=localApproved();if(quoteLine)quoteLine.textContent=approved?'Free local delivery: approved suburb':'Free local delivery to selected nearby suburbs. Enter your suburb to check.';if(grand)grand.textContent=approved?money(cartSubtotal()):'Choose an approved suburb';}else if(grand)grand.textContent=pickup?money(cartSubtotal()):'Pending postage quote';
+ if(method.value==='local'){const approved=localApproved();if(quoteLine)quoteLine.textContent=approved?'Delivery: FREE — approved suburb':localChecked()?'NOT AVAILABLE — outside approved free-delivery suburbs. Select Australia-wide postage above.':'Enter and select an approved suburb to check free delivery.';if(grand)grand.textContent=approved?money(cartSubtotal()):'Delivery unavailable — no total';}else if(grand)grand.textContent=pickup?money(cartSubtotal()):'Pending postage quote';
  if(method.value==='post'&&postal()&&entries().length)calculate();
 }
 async function calculate(){
@@ -448,7 +450,7 @@ postcode.addEventListener('blur',()=>setTimeout(()=>{if(suggestions)suggestions.
 el('hm-submit-order').addEventListener('click',async()=>{
  const button=el('hm-submit-order'),notice=el('hm-submit-status');
  if(!entries().length){notice.textContent='Please add a product to your order first.';return;}
- if(method.value!=='pickup'&&!postal()){notice.textContent='Please enter a valid delivery suburb and postcode.';postcode.focus();return;}if(method.value==='local'&&!localApproved()){notice.textContent='That suburb is outside our free local delivery area. Please choose Bankstown pickup or Australia-wide postage.';postcode.focus();return;}if(method.value!=='pickup'&&!el('hm-delivery-address').value.trim()){notice.textContent='Please enter your delivery street address.';el('hm-delivery-address').focus();return;}
+ if(method.value!=='pickup'&&!postal()){notice.textContent='Please enter a valid delivery suburb and postcode.';postcode.focus();return;}if(method.value==='local'&&!localApproved()){notice.textContent='Free local delivery is unavailable for this suburb. Please change the delivery method to Australia-wide postage or Bankstown pickup.';postcode.focus();return;}if(method.value==='post'&&postcode.value.trim()!==postal()&&!chosen){notice.textContent='Please choose a suburb from the suggestions or enter only a valid four-digit postcode.';postcode.focus();return;}if(method.value!=='pickup'&&!el('hm-delivery-address').value.trim()){notice.textContent='Please enter your delivery street address.';el('hm-delivery-address').focus();return;}
  const name=el('hm-customer-name').value.trim(),email=el('hm-customer-email').value.trim(),phone=el('hm-customer-phone').value.trim();
  if(name.length<2||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!phone){notice.textContent='Please enter your name, valid email address and phone number.';return;}
  const payload={name,email,phone,method:method.value,destination:method.value==='pickup'?'':postcode.value.trim(),address:method.value==='pickup'?'':el('hm-delivery-address').value.trim(),notes:el('hm-customer-notes').value.trim(),website:el('hm-customer-website').value,cart:entries().map(([id,qty])=>({id,qty})),postageEstimate:method.value==='post'&&quote?Number(quote.postage):null};
