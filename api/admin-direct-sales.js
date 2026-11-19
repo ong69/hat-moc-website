@@ -1,10 +1,10 @@
-const crypto=require('crypto');
-const eq=(a,b)=>{const x=Buffer.from(String(a||'')),y=Buffer.from(String(b||''));return x.length===y.length&&crypto.timingSafeEqual(x,y)};
+const {isAuthorized,sameOrigin}=require('./_admin-auth');
 module.exports=async(req,res)=>{
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Robots-Tag','noindex, nofollow');
  if(!['GET','POST','PATCH','DELETE'].includes(req.method))return res.status(405).json({error:'Method not allowed'});
  if(!process.env.HATMOC_ADMIN_PASSWORD||!process.env.SUPABASE_URL||!process.env.SUPABASE_SERVICE_ROLE_KEY)return res.status(503).json({error:'Dashboard setup incomplete'});
- if(!eq((req.headers.authorization||'').replace(/^Bearer\s+/i,''),process.env.HATMOC_ADMIN_PASSWORD))return res.status(401).json({error:'Incorrect password'});
+ if(!isAuthorized(req))return res.status(401).json({error:'Incorrect password'});
+ if(!sameOrigin(req))return res.status(403).json({error:'Invalid request origin'});
  const url=process.env.SUPABASE_URL.replace(/\/$/,'')+'/rest/v1/hatmoc_direct_sales';
  const headers={apikey:process.env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+process.env.SUPABASE_SERVICE_ROLE_KEY,'Content-Type':'application/json'};
  try{
