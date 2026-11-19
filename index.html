@@ -458,7 +458,7 @@ function renderCart(){
   row.append(productInfo,amount,actions);cartBox.append(row);
  }
 }
-function changeCart(id,delta){cart[id]=Math.max(0,Math.min(30,(cart[id]||0)+delta));if(!cart[id])delete cart[id];renderCart();update();}
+function changeCart(id,delta){cart[id]=Math.max(0,Math.min(30,(cart[id]||0)+delta));if(!cart[id])delete cart[id];renderCart();update();if(!entries().length){status.textContent='';}else if(delta<0){status.textContent='Your order has been updated.';}}
 window.hmAddToCart=(id,n)=>{if(!(id in prices))return;changeCart(id,n);status.textContent=names[id]+' added to your order. You can add another product.';};
 const localApproved=()=>{const m=postcode.value.trim().match(/^(.+?),?\s*(?:NSW\s+)?(\d{4})$/i);if(!m)return false;const suburb=m[1].replace(/,\s*NSW$/i,'').trim().toLowerCase();return deliveryZones.some(z=>z.suburb.toLowerCase()===suburb&&z.postcode===m[2]);};
 const localChecked=()=>method.value==='local'&&postcode.value.trim().length>0;
