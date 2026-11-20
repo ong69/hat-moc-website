@@ -15,13 +15,10 @@ PRODUCT_LINKS = {'coffee': ('/#shop-coffee', 'Shop coffee beans'),
                  'cashews': ('/#shop-cashews', 'Shop roasted cashews'),
                  'collection': ('/#shop', 'Shop the collection')}
 CATEGORIES = ('Shopping guides', 'Coffee culture', 'Brewing guides', 'Cashew guides')
-IMAGES = {
-    'cafe': ('/assets/journal/cafe.webp', 'Coffee and cashews on a table in a Hanoi-style courtyard'),
-    'ritual': ('/assets/journal/ritual.webp', 'Vietnamese iced coffee beside a bowl of roasted cashews'),
-    'beans': ('/assets/journal/phin.webp', 'A metal phin held over a glass of Vietnamese coffee'),
-    'iced': ('/assets/journal/iced.webp', 'A glass of Vietnamese iced coffee with a phin in the background'),
-    'cashews': ('/assets/journal/cashews.webp', 'A bowl of golden roasted cashews'),
-}
+HUB_IMAGE = {'src': '/assets/journal/cafe.webp',
+             'alt': 'Coffee and cashews on a table in a Hanoi-style courtyard'}
+FEATURE_IMAGE = {'src': '/assets/journal/iced.webp',
+                 'alt': 'A glass of Vietnamese iced coffee with a phin in the background'}
 SOURCES = {
     'vietnamese-coffee-culture': [('Vietnam Tourism · The story behind Vietnam’s coffee culture', 'https://vietnam.travel/things-to-do/taste-vietnam-story-behind-its-beloved-coffee-culture/')],
     'five-vietnamese-coffee-recipes': [('Vietnam Tourism · Five Vietnamese coffees', 'https://vietnam.travel/things-to-do/5-fantastic-vietnamese-coffees/')],
@@ -32,10 +29,10 @@ SOURCES = {
 def url(article):
     return f"/journal/{article['slug']}.html"
 
-def img(key, eager=False):
-    path, alt = IMAGES[key]
+def img(image, eager=False):
+    path, alt = image['src'], image['alt']
     hint = 'fetchpriority="high"' if eager else 'loading="lazy"'
-    return f'<img src="{path}" alt="{escape(alt)}" {hint} decoding="async">'
+    return f'<img src="{escape(path)}" alt="{escape(alt)}" {hint} decoding="async">'
 
 def heading(value):
     # Keep final words together on narrow screens without forcing manual line breaks.
@@ -59,8 +56,8 @@ def layout(path, title, description, image, content, schema):
 <meta property="og:title" content="{escape(title)} | Hạt Mộc">
 <meta property="og:description" content="{escape(description)}">
 <meta property="og:url" content="{canonical}">
-<meta property="og:image" content="{ORIGIN + IMAGES[image][0]}">
-<meta property="og:image:alt" content="{escape(IMAGES[image][1])}">
+<meta property="og:image" content="{ORIGIN + image['src']}">
+<meta property="og:image:alt" content="{escape(image['alt'])}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#12372a">
 <link rel="stylesheet" href="/journal/journal.css">
@@ -127,7 +124,7 @@ def article_page(article, by_slug):
 </main>"""
     schema = {
         '@context': 'https://schema.org', '@type': 'Article',
-        'headline': title, 'description': description, 'image': ORIGIN + IMAGES[image][0],
+        'headline': title, 'description': description, 'image': ORIGIN + image['src'],
         'inLanguage': 'en-AU', 'mainEntityOfPage': ORIGIN + path,
         'author': {'@type': 'Organization', 'name': 'Hạt Mộc', 'url': ORIGIN + '/'},
         'publisher': {'@type': 'Organization', 'name': 'Hạt Mộc', 'url': ORIGIN + '/'},
@@ -155,18 +152,18 @@ def hub_page(articles, by_slug):
 <h1>Coffee &amp;&nbsp;Culture</h1>
 <p class="lede">Vietnamese coffee rituals, the perfect phin pour and a good handful of roasted&nbsp;cashews.</p>
 <a class="button" href="#shopping-guides">Explore the guides <span aria-hidden="true">↓</span></a>
-</div><div class="hero-image">{img('cafe', eager=True)}</div></div></section>
+</div><div class="hero-image">{img(HUB_IMAGE, eager=True)}</div></div></section>
 <nav class="frame chapter-nav" aria-label="Journal topics">{menu}</nav>
 <div class="frame">
 <a class="feature" href="{url(featured)}">
-<div class="feature-image">{img('iced')}</div>
+<div class="feature-image">{img(FEATURE_IMAGE)}</div>
 <div class="feature-copy"><p class="kicker">From the recipe collection</p><h2>{heading(featured['title'])}</h2>
 <p>{escape(featured['intro'])}</p><span class="feature-link">Get the recipes <span aria-hidden="true">↗</span></span></div></a></div>
 {sections}
 </main>"""
     schema = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': title,
               'description': description, 'url': ORIGIN + HUB, 'inLanguage': 'en-AU'}
-    return layout(HUB, title, description, 'cafe', content, schema)
+    return layout(HUB, title, description, HUB_IMAGE, content, schema)
 
 def sitemap(articles):
     ET.register_namespace('', NS)
@@ -191,12 +188,22 @@ def main():
     by_slug = {article['slug']: article for article in articles}
     if len(by_slug) != len(articles) or 'index' in by_slug:
         raise SystemExit('Duplicate or reserved journal slug')
+    seen_images = {HUB_IMAGE['src'], FEATURE_IMAGE['src']}
     for article in articles:
         slug = article['slug']
         if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', slug):
             raise SystemExit(f'Invalid journal slug: {slug}')
-        if article['category'] not in CATEGORIES or article['image'] not in IMAGES or article['product'] not in PRODUCT_LINKS:
-            raise SystemExit(f'Unknown category, image or product: {slug}')
+        if article['category'] not in CATEGORIES or article['product'] not in PRODUCT_LINKS:
+            raise SystemExit(f'Unknown category or product: {slug}')
+        image = article.get('image')
+        if not isinstance(image, dict) or not isinstance(image.get('alt'), str) or not image['alt'].strip():
+            raise SystemExit(f'Provide an image with a descriptive alt text: {slug}')
+        src = image.get('src')
+        if not isinstance(src, str) or not re.fullmatch(r'/assets/journal/[a-z0-9-]+\.webp', src):
+            raise SystemExit(f'Use a local journal WebP image: {slug}')
+        if src in seen_images or not (ROOT / src.lstrip('/')).is_file():
+            raise SystemExit(f'Duplicate or missing image: {slug}')
+        seen_images.add(src)
         if len(article['sections']) < 3 or len(set(article['related'])) != 3:
             raise SystemExit(f'Provide three sections and three distinct related articles: {slug}')
         if any(related not in by_slug or related == slug for related in article['related']):

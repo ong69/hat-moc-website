@@ -3,7 +3,10 @@
     "slug": "vietnamese-coffee-beans-sydney",
     "title": "Where to buy Vietnamese coffee beans in Sydney",
     "category": "Shopping guides",
-    "image": "beans",
+    "image": {
+      "src": "/assets/journal/vietnamese-coffee-beans-sydney.webp",
+      "alt": "A ceramic scoop of whole coffee beans beside a stainless steel phin"
+    },
     "intro": "Find whole Vietnamese coffee beans for your phin, with Bankstown pickup or postage across Sydney.",
     "cta": "Shop Vietnamese coffee beans",
     "sections": [
@@ -36,7 +39,10 @@
     "slug": "buy-vietnamese-coffee-beans-australia",
     "title": "Buy Vietnamese coffee beans online in Australia",
     "category": "Shopping guides",
-    "image": "beans",
+    "image": {
+      "src": "/assets/journal/buy-vietnamese-coffee-beans-australia.webp",
+      "alt": "A kraft coffee pouch in an open shipping carton beside loose coffee beans"
+    },
     "intro": "A practical guide to choosing a Vietnamese whole-bean blend and ordering it from anywhere in Australia.",
     "cta": "Order Hanoi coffee beans",
     "sections": [
@@ -69,7 +75,10 @@
     "slug": "bankstown-coffee-and-cashews",
     "title": "Vietnamese coffee and roasted cashews in Bankstown",
     "category": "Shopping guides",
-    "image": "ritual",
+    "image": {
+      "src": "/assets/journal/ritual.webp",
+      "alt": "A hand pouring coffee from a phin beside a bowl of roasted cashews"
+    },
     "intro": "Order Hạt Mộc’s Vietnamese coffee beans and roasted cashews online, then arrange free Bankstown pickup.",
     "cta": "Order for Bankstown pickup",
     "sections": [
@@ -102,7 +111,10 @@
     "slug": "vietnamese-cashew-nuts-sydney",
     "title": "Where to buy Vietnamese roasted cashews in Sydney",
     "category": "Shopping guides",
-    "image": "cashews",
+    "image": {
+      "src": "/assets/journal/vietnamese-cashew-nuts-sydney.webp",
+      "alt": "A glass jar filled with golden roasted cashews"
+    },
     "intro": "Compare pack sizes, check ingredients and choose Bankstown pickup, local delivery or Sydney postage.",
     "cta": "Shop roasted cashews",
     "sections": [
@@ -135,7 +147,10 @@
     "slug": "buy-vietnamese-cashew-nuts-australia",
     "title": "Buy Vietnamese cashew nuts online in Australia",
     "category": "Shopping guides",
-    "image": "cashews",
+    "image": {
+      "src": "/assets/journal/buy-vietnamese-cashew-nuts-australia.webp",
+      "alt": "Roasted cashews spilling from a kraft pouch onto a stone counter"
+    },
     "intro": "What to check before ordering roasted Vietnamese cashews online, from price per 100 g to how you’ll store them.",
     "cta": "Order Vietnamese cashews",
     "sections": [
@@ -168,7 +183,10 @@
     "slug": "vietnamese-coffee-culture",
     "title": "Vietnamese coffee is more than a drink",
     "category": "Coffee culture",
-    "image": "cafe",
+    "image": {
+      "src": "/assets/journal/vietnamese-coffee-culture.webp",
+      "alt": "A metal phin brewing coffee into a glass in a warmly lit café"
+    },
     "intro": "From the slow drip of a phin to the layers of a Hanoi egg coffee, Vietnamese coffee makes time for the cup.",
     "cta": "Brew with Hanoi coffee beans",
     "sections": [
@@ -201,7 +219,10 @@
     "slug": "vietnamese-robusta-coffee",
     "title": "Why Vietnamese Robusta coffee tastes different",
     "category": "Brewing guides",
-    "image": "beans",
+    "image": {
+      "src": "/assets/journal/vietnamese-robusta-coffee.webp",
+      "alt": "Dark roasted coffee beans with a scoop of ground coffee"
+    },
     "intro": "Understand the body, bitterness and roast behind a strong Vietnamese coffee, then adjust your brew to suit your taste.",
     "cta": "Explore the Hanoi blend",
     "sections": [
@@ -234,7 +255,10 @@
     "slug": "five-vietnamese-coffee-recipes",
     "title": "Five ways to make Vietnamese coffee at home",
     "category": "Brewing guides",
-    "image": "iced",
+    "image": {
+      "src": "/assets/journal/five-vietnamese-coffee-recipes.webp",
+      "alt": "Three Vietnamese coffees served side by side"
+    },
     "intro": "Start with one short brew and make cà phê sữa đá, egg coffee, coconut coffee, salt coffee or bạc xỉu.",
     "cta": "Get coffee for your phin",
     "sections": [
@@ -275,7 +299,10 @@
     "slug": "what-makes-vietnamese-cashews-special",
     "title": "What makes Vietnamese cashews special?",
     "category": "Cashew guides",
-    "image": "cashews",
+    "image": {
+      "src": "/assets/journal/what-makes-vietnamese-cashews-special.webp",
+      "alt": "Golden roasted cashews with salt on a dark plate"
+    },
     "intro": "From growing and shelling to the final roast, here’s what shapes the texture and taste of a good cashew.",
     "cta": "Taste our roasted cashews",
     "sections": [
@@ -308,7 +335,10 @@
     "slug": "vietnamese-coffee-culture-australia",
     "title": "Where Vietnamese coffee culture thrives in Australia",
     "category": "Coffee culture",
-    "image": "cafe",
+    "image": {
+      "src": "/assets/journal/vietnamese-coffee-culture-australia.webp",
+      "alt": "Vietnamese iced coffee and a glass of water on a sunlit café table"
+    },
     "intro": "Explore the food neighbourhoods where Vietnamese coffee feels at home, from Western Sydney to Melbourne and Brisbane.",
     "cta": "Bring the coffee ritual home",
     "sections": [
