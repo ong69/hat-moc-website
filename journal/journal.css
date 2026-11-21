@@ -214,3 +214,16 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .article-page .shop-panel h2{font-family:var(--sans);font-weight:760;letter-spacing:-.035em}
 @media(max-width:790px){.article-page .contents{padding:17px}.article-page .prose>.article-intro{padding:21px 23px}.article-page .prose section+section{margin-top:48px;padding-top:32px}}
 @media(max-width:510px){.article-page .prose section h2{font-size:clamp(1.4rem,6vw,1.75rem);max-width:none}.article-page .prose section h2:before{width:33px;height:33px;border-radius:9px;margin-right:10px}.article-page .prose>.article-intro{padding:19px;margin-bottom:35px}.article-page .contents ul{grid-template-columns:1fr}.article-page .prose section+section{margin-top:42px;padding-top:28px}}
+
+/* Article layout refinement: uninterrupted reading flow, no badges or callout border */
+.article-page .prose{counter-reset:none}
+.article-page .prose section{counter-increment:none;padding-top:0}
+.article-page .prose section+section{margin-top:clamp(36px,4vw,54px);padding-top:0;border-top:0}
+.article-page .prose section h2{font-family:var(--sans);font-weight:750;font-size:clamp(1.32rem,1.75vw,1.72rem);line-height:1.3;letter-spacing:-.035em;max-width:none;text-wrap:pretty;margin:0 0 17px}
+.article-page .prose section h2:before{content:none;display:none}
+.article-page .prose>.article-intro{font-size:clamp(1.05rem,1.35vw,1.16rem);line-height:1.85;font-weight:400;padding:0;margin:0 0 36px;background:transparent;border:0;border-radius:0;color:#293d34}
+.article-page .prose>.article-note{margin-top:40px;padding:0;background:transparent;border:0;border-radius:0;font-weight:500}
+.article-page .prose p{line-height:1.8;margin-bottom:20px}
+.article-page .reading-layout{grid-template-columns:minmax(155px,205px) minmax(0,790px);gap:clamp(24px,4vw,60px)}
+@media(max-width:790px){.article-page .reading-layout{grid-template-columns:1fr}.article-page .prose section+section{margin-top:36px}}
+@media(max-width:510px){.article-page .prose section h2{font-size:clamp(1.32rem,5.2vw,1.6rem);line-height:1.3}.article-page .prose>.article-intro{padding:0;margin-bottom:30px}.article-page .prose section+section{margin-top:32px}}
