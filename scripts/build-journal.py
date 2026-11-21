@@ -14,6 +14,7 @@ NS = 'http://www.sitemaps.org/schemas/sitemap/0.9'
 PRODUCT_LINKS = {'coffee': ('/#shop-coffee', 'Shop coffee beans'),
                  'cashews': ('/#shop-cashews', 'Shop roasted cashews'),
                  'collection': ('/#shop', 'Shop the collection')}
+ANALYTICS_ID = 'G-MHPHHCJVQQ'
 CATEGORIES = ('Shopping guides', 'Coffee culture', 'Brewing guides', 'Cashew guides')
 HUB_IMAGE = {'src': '/assets/journal/cafe.webp',
              'alt': 'Coffee and cashews on a table in a Hanoi-style courtyard'}
@@ -61,6 +62,17 @@ def layout(path, title, description, image, content, schema):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#12372a">
 <link rel="stylesheet" href="/journal/journal.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id={ANALYTICS_ID}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag() {{ window.dataLayer.push(arguments); }}
+gtag('js', new Date());
+gtag('config', '{ANALYTICS_ID}');
+document.addEventListener('click', event => {{
+  const link = event.target.closest('a[href^="/#shop"]');
+  if (link) gtag('event', 'journal_shop_click', {{link_url: link.href}});
+}});
+</script>
 <script type="application/ld+json">{metadata}</script>
 </head>
 <body>
