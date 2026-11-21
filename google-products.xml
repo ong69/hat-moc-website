@@ -7,9 +7,9 @@
 <item>
 <g:id>coffee-500</g:id>
 <g:shipping_weight>550 g</g:shipping_weight>
-<g:title>Hạt Mộc Vietnamese Robusta Coffee Beans 500g</g:title>
-<g:description>Vietnamese Robusta coffee beans sourced from Hanoi, Vietnam. Bold flavour, 500g pack.</g:description>
-<g:link>https://www.hatmoc.com/#shop</g:link>
+<g:title>Hạt Mộc Hanoi Coffee Beans 500g</g:title>
+<g:description>Vietnamese coffee beans sourced from Hanoi, Vietnam. Blend: Robusta, Culi (peaberry) and Moka. 500 g.</g:description>
+<g:link>https://www.hatmoc.com/#shop-coffee</g:link>
 <g:image_link>https://www.hatmoc.com/assets/coffee.jpg</g:image_link>
 <g:availability>in_stock</g:availability>
 <g:condition>new</g:condition>
@@ -23,7 +23,7 @@
 <g:shipping_weight>200 g</g:shipping_weight>
 <g:title>Hạt Mộc Roasted Cashews 150g</g:title>
 <g:description>Roasted cashew nuts sourced from Hanoi, Vietnam. 150g pack.</g:description>
-<g:link>https://www.hatmoc.com/#shop</g:link>
+<g:link>https://www.hatmoc.com/?cashew-size=150#shop-cashews</g:link>
 <g:image_link>https://www.hatmoc.com/assets/cashews.jpg</g:image_link>
 <g:availability>in_stock</g:availability>
 <g:condition>new</g:condition>
@@ -37,7 +37,7 @@
 <g:shipping_weight>350 g</g:shipping_weight>
 <g:title>Hạt Mộc Roasted Cashews 300g</g:title>
 <g:description>Roasted cashew nuts sourced from Hanoi, Vietnam. 300g pack.</g:description>
-<g:link>https://www.hatmoc.com/#shop</g:link>
+<g:link>https://www.hatmoc.com/?cashew-size=300#shop-cashews</g:link>
 <g:image_link>https://www.hatmoc.com/assets/cashews.jpg</g:image_link>
 <g:availability>in_stock</g:availability>
 <g:condition>new</g:condition>
@@ -51,7 +51,7 @@
 <g:shipping_weight>550 g</g:shipping_weight>
 <g:title>Hạt Mộc Roasted Cashews 500g</g:title>
 <g:description>Roasted cashew nuts sourced from Hanoi, Vietnam. 500g pack.</g:description>
-<g:link>https://www.hatmoc.com/#shop</g:link>
+<g:link>https://www.hatmoc.com/?cashew-size=500#shop-cashews</g:link>
 <g:image_link>https://www.hatmoc.com/assets/cashews.jpg</g:image_link>
 <g:availability>in_stock</g:availability>
 <g:condition>new</g:condition>
@@ -64,8 +64,8 @@
 <g:id>bundle-1000</g:id>
 <g:shipping_weight>1050 g</g:shipping_weight>
 <g:title>Hạt Mộc Vietnamese Coffee and Roasted Cashew Bundle 1kg</g:title>
-<g:description>One 500g pack of Vietnamese Robusta coffee beans and one 500g pack of roasted cashews sourced from Hanoi, Vietnam.</g:description>
-<g:link>https://www.hatmoc.com/#shop</g:link>
+<g:description>One 500g pack of Hanoi coffee beans and one 500g pack of roasted cashews sourced from Hanoi, Vietnam.</g:description>
+<g:link>https://www.hatmoc.com/#shop-bundle</g:link>
 <g:image_link>https://www.hatmoc.com/assets/products-cutout.png</g:image_link>
 <g:availability>in_stock</g:availability>
 <g:condition>new</g:condition>
