@@ -938,12 +938,22 @@ renderCart();update();
   timeline.querySelectorAll('details').forEach(step => {
     const summary = step.querySelector('summary');
     let pending;
-    summary.addEventListener('pointerenter', event => {
-      if (!hover.matches || event.pointerType !== 'mouse') return;
-      pending = setTimeout(() => { step.open = true; }, 180);
+    let handled = false;
+    summary.addEventListener('pointermove', event => {
+      if (!hover.matches || event.pointerType !== 'mouse' || handled || step.open) return;
+      handled = true;
+      pending = setTimeout(() => {
+        if (summary.matches(':hover')) step.open = true;
+      }, 180);
     });
-    summary.addEventListener('pointerleave', () => clearTimeout(pending));
-    summary.addEventListener('click', () => clearTimeout(pending));
+    summary.addEventListener('pointerleave', () => {
+      clearTimeout(pending);
+      handled = false;
+    });
+    summary.addEventListener('click', () => {
+      clearTimeout(pending);
+      handled = true;
+    });
   });
 
   if (!('IntersectionObserver' in window)) return;
