@@ -277,17 +277,29 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .masthead .brand,.site-footer .brand{display:inline-block;color:#e8c574;font:italic 400 35px/1 "Playfair Display",Georgia,serif;text-align:center;text-decoration:none}
 .masthead .brand::after,.site-footer .brand::after{content:"THE RAW TASTE";display:block;margin-top:10px;font:400 8px/1 "DM Sans",sans-serif;letter-spacing:4px}
 .masthead nav{gap:10px;flex-wrap:nowrap}
-.masthead nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 17px;border:1px solid #e8c57459;border-radius:8px;color:#f9eed7;font:700 .88rem/1.2 "DM Sans",sans-serif;white-space:nowrap}
-.masthead nav a:hover,.masthead nav a[aria-current="page"]{background:#ffffff0d;border-color:#e8c574a6;text-decoration:none}
-.masthead nav .shop-link{gap:8px;background:#e8c574;border-color:#e8c574;color:#102e23}
-.masthead nav .shop-link:hover{background:#f4d693;border-color:#f4d693}
-.masthead nav .shop-link::after{content:"→" / "";font-size:1.1em}
+.masthead nav a{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 15px;border:1px solid #e8c57445;border-radius:999px;color:#f9eed7;font:700 .88rem/1.2 "DM Sans",sans-serif;white-space:nowrap;transition:transform .18s ease,background-color .18s ease,border-color .18s ease,box-shadow .18s ease}
+.masthead nav a::before{content:"";width:16px;height:16px;flex:none;background:currentColor;mask:var(--nav-icon) center/contain no-repeat;transition:transform .18s ease}
+.masthead nav a:not(.shop-link){--nav-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12%206c-3-2-6-2-9-1v14c3-1%206-1%209%201%203-2%206-2%209-1V5c-3-1-6-1-9%201z%20M12%206v14'/%3E%3C/svg%3E");color:#f1d99f}
+.masthead nav a[aria-current="page"]{background-color:#1d4031;border-color:#e8c57470}
+.masthead nav a:hover,.masthead nav a:focus-visible{background-color:#28513d;border-color:#e8c574a6;box-shadow:0 5px 12px #0003;transform:translateY(-2px);text-decoration:none}
+.masthead nav a:hover::before,.masthead nav a:focus-visible::before{transform:rotate(-9deg)}
+.masthead nav .shop-link{--nav-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5%208h14l1%2012H4L5%208z%20M9%209V6a3%203%200%200%201%206%200v3'/%3E%3C/svg%3E");background-color:#e8c574;border-color:#e8c574;color:#102e23}
+.masthead nav .shop-link:hover,.masthead nav .shop-link:focus-visible{background-color:#f4d693;border-color:#f4d693}
+.masthead nav a:active{transform:translateY(0);box-shadow:none}
 .masthead a:focus-visible{outline:2px solid #f4d693;outline-offset:3px}
 @media(max-width:510px){
   .masthead-inner{min-height:70px}
   .masthead .brand,.site-footer .brand{font-size:28px}
   .masthead .brand::after,.site-footer .brand::after{margin-top:7px;letter-spacing:2.5px}
   .masthead nav{gap:6px}
-  .masthead nav a{padding-inline:9px;font-size:.78rem}
-  .masthead nav .shop-link{gap:5px}
+  .masthead nav a{gap:5px;padding-inline:8px;font-size:.75rem}
+  .masthead nav a::before{width:14px;height:14px}
+}
+@media(max-width:360px){
+  .masthead .brand{font-size:24px}
+  .masthead nav a{padding-inline:7px;font-size:.7rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .masthead nav a,.masthead nav a::before{transition:none}
+  .masthead nav a:hover,.masthead nav a:focus-visible,.masthead nav a:hover::before,.masthead nav a:focus-visible::before{transform:none}
 }
