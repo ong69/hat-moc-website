@@ -1,5 +1,5 @@
 {
-  "description": "Hạt Mộc business-approved free local delivery suburbs. Indicative surrounding Bankstown service area, not guaranteed to be within 20 minutes driving from every address. Maintain this list to match delivery capacity; no external API.",
+  "description": "Hạt Mộc business-approved free delivery suburbs, including Chatswood and selected suburbs near Bankstown.",
   "approvedSuburbs": [
     {
       "suburb": "Bankstown",
@@ -92,6 +92,10 @@
     {
       "suburb": "Roselands",
       "postcode": "2196"
+    },
+    {
+      "suburb": "Chatswood",
+      "postcode": "2067"
     }
   ]
 }

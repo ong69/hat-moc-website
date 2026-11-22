@@ -48,7 +48,7 @@ module.exports=async function handler(req,res){
   const payText='PayID: 0434 085 355\nOr bank transfer:\nAccount name: Nicholas Ong\nBSB: 112-879\nAccount number: 443678902\nPayment reference: '+ref;
   const paymentInstructions=payable
     ? 'Amount to pay: '+total+'\n'+payText+'\n\nAfter paying, reply to this email with a screenshot or payment confirmation and include your order reference. We will check the funds in St.George before preparing your order.'
-    : local?'Free local delivery applies only to addresses confirmed within approximately 15 minutes driving of Bankstown. We will check your address and send the final amount and payment instructions. Please do not pay yet.'
+    : local?'Free local delivery applies only to addresses in approved delivery suburbs. We will check your address and send the final amount and payment instructions. Please do not pay yet.'
     :'Your parcel requires a packing/postage check. We will send the final total and payment details once confirmed. Please do not pay yet.';
   const deliveryText=pickup?'Free Bankstown pickup':localFree?'Free local delivery':local?'Local delivery — eligibility to be confirmed':'Australia Post Parcel Post';
   const nextStep=pickup?'We will arrange your Bankstown pickup after payment clears.':localFree?'After payment clears, we will contact you to arrange free local delivery in our approved service area.':local?'We will confirm your delivery eligibility and timing, then arrange delivery after payment clears.':'Once payment clears, we aim to dispatch within 2 business days. Australia Post transit time is additional.';
