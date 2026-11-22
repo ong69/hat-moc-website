@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
 :root {
   color-scheme: light;
   --ink: #172e25;
@@ -269,3 +270,24 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .article-page .prose .editorial-tip p{margin:0;font-size:1rem;line-height:1.75}
 .article-page .prose .editorial-extra{margin-top:45px}
 @media(max-width:650px){.article-page .prose .editorial-feature-grid{grid-template-columns:1fr;gap:16px}.article-page .prose .editorial-feature{padding:23px}.article-page .prose .editorial-feature-item{padding-top:12px}}
+
+/* Shared masthead for the journal and its articles. */
+.masthead{background:#102e23;border-bottom-color:#e8c57455}
+.masthead-inner{min-height:82px;padding-block:10px}
+.masthead .brand,.site-footer .brand{display:inline-block;color:#e8c574;font:italic 400 35px/1 "Playfair Display",Georgia,serif;text-align:center;text-decoration:none}
+.masthead .brand::after,.site-footer .brand::after{content:"THE RAW TASTE";display:block;margin-top:10px;font:400 8px/1 "DM Sans",sans-serif;letter-spacing:4px}
+.masthead nav{gap:10px;flex-wrap:nowrap}
+.masthead nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 17px;border:1px solid #e8c57459;border-radius:8px;color:#f9eed7;font:700 .88rem/1.2 "DM Sans",sans-serif;white-space:nowrap}
+.masthead nav a:hover,.masthead nav a[aria-current="page"]{background:#ffffff0d;border-color:#e8c574a6;text-decoration:none}
+.masthead nav .shop-link{gap:8px;background:#e8c574;border-color:#e8c574;color:#102e23}
+.masthead nav .shop-link:hover{background:#f4d693;border-color:#f4d693}
+.masthead nav .shop-link::after{content:"→" / "";font-size:1.1em}
+.masthead a:focus-visible{outline:2px solid #f4d693;outline-offset:3px}
+@media(max-width:510px){
+  .masthead-inner{min-height:70px}
+  .masthead .brand,.site-footer .brand{font-size:28px}
+  .masthead .brand::after,.site-footer .brand::after{margin-top:7px;letter-spacing:2.5px}
+  .masthead nav{gap:6px}
+  .masthead nav a{padding-inline:9px;font-size:.78rem}
+  .masthead nav .shop-link{gap:5px}
+}
