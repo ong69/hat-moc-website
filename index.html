@@ -1021,21 +1021,29 @@ renderCart();update();
     }
     requestAnimationFrame(move);
   }
-  image.addEventListener('load', sizeMotion);
+  let inView = false;
+  let replayTimer;
+  image.addEventListener('load', () => {
+    sizeMotion();
+    if (inView) playPour();
+  });
   if ('ResizeObserver' in window) new ResizeObserver(sizeMotion).observe(image);
   sizeMotion();
   motion.addEventListener('animationend', event => {
     if (event.animationName !== 'hm-coffee-motion') return;
     motion.classList.remove('hm-pour-playing');
-    if (banner.matches(':hover') && matchMedia('(hover: hover)').matches) requestAnimationFrame(() => requestAnimationFrame(playPour));
+    if (inView) replayTimer = setTimeout(playPour, 1000);
   });
-  banner.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') playPour(); });
+  banner.addEventListener('pointerenter', event => {
+    if (event.pointerType !== 'mouse') return;
+    clearTimeout(replayTimer);
+    playPour();
+  });
   if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => {
-      if (!entries.some(entry => entry.isIntersecting)) return;
-      if (image.naturalWidth) playPour();
-      else image.addEventListener('load', playPour, {once: true});
-      observer.disconnect();
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting && entry.intersectionRatio >= .25;
+      if (inView) playPour();
+      else clearTimeout(replayTimer);
     }, {threshold: .25});
     observer.observe(banner);
   }
