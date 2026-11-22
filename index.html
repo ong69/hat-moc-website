@@ -654,7 +654,7 @@ header nav>a.btn{border-radius:7px;padding:14px 18px;white-space:nowrap;font-siz
 }
 </style><style>
 .ritual-image .hm-pour-motion{position:absolute;left:50%;top:50%;width:var(--pour-width,0px);height:var(--pour-height,0px);transform:translate(-50%,-50%);pointer-events:none;opacity:0;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
-@media(prefers-reduced-motion:no-preference){.hm-pour-playing{animation:hm-coffee-motion 5s ease-in-out both}}
+@media(prefers-reduced-motion:no-preference){.hm-pour-playing{animation:hm-coffee-motion 3.5s ease-in-out both}}
 @media(min-width:801px) and (hover:hover){.ritual-image:hover .hm-pour-motion{transform:translate(-50%,-50%) scale(1.035)}}
 @keyframes hm-coffee-motion{0%,100%{opacity:0}12%,82%{opacity:1}}
 </style></head><body><div class="top">FREE BANKSTOWN PICKUP · FREE LOCAL DELIVERY · AUSTRALIA-WIDE SHIPPING · DISPATCH WITHIN 2 BUSINESS DAYS</div><header><a href="#" class="logo" aria-label="Hạt Mộc home">Hạt Mộc<small>THE RAW TASTE</small></a><nav aria-label="Main navigation"><a href="#shop">Shop</a><a href="#story">About us</a><a href="#order-quote">Pickup & delivery</a><a class="hm-header-cart" href="#hm-order-form" aria-label="View your cart, 0 items"><svg class="hm-cart-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M2 3h2l2.5 12.5a2 2 0 0 0 2 1.5H19a2 2 0 0 0 2-1.5L22 7H5"/></svg><span class="hm-cart-label">Cart</span><span id="hm-header-cart-count">0</span></a><a class="btn outline" href="https://m.me/hatmoc.australia" target="_blank" rel="noopener noreferrer">CONTACT US<span class="hm-cta-arrow" aria-hidden="true"> ↗</span></a></nav></header>
@@ -669,12 +669,16 @@ header nav>a.btn{border-radius:7px;padding:14px 18px;white-space:nowrap;font-siz
   <defs>
     <radialGradient id="hm-liquid-feather"><stop offset="58%" stop-color="white"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
     <mask id="hm-liquid-glass"><ellipse cx="446" cy="696" rx="155" ry="226" fill="url(#hm-liquid-feather)"/></mask>
-    <linearGradient id="hm-dark-coffee" x1="0" x2="1">
-      <stop stop-color="#2a0b04"/>
-      <stop offset=".35" stop-color="#491408"/>
-      <stop offset=".7" stop-color="#763116"/>
-      <stop offset="1" stop-color="#270a04"/>
-    </linearGradient>
+    <mask id="hm-photo-stream">
+      <ellipse class="hm-stream-sample" cx="488" cy="325" rx="19" ry="36" fill="url(#hm-liquid-feather)"/>
+    </mask>
+    <filter id="hm-coffee-depth" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="linear" slope=".87"/>
+        <feFuncG type="linear" slope=".78"/>
+        <feFuncB type="linear" slope=".73"/>
+      </feComponentTransfer>
+    </filter>
     <filter id="hm-glass-swirl" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency=".006 .008" numOctaves="2" seed="8"/>
       <feOffset class="hm-swirl-offset" dx="0" dy="0"/>
@@ -682,7 +686,7 @@ header nav>a.btn{border-radius:7px;padding:14px 18px;white-space:nowrap;font-siz
     </filter>
   </defs>
   <g mask="url(#hm-liquid-glass)"><image href="assets/vietnamese-coffee-ritual.png" width="1536" height="1024" filter="url(#hm-glass-swirl)"/></g>
-  <path class="hm-dark-stream" d="M451 317C462 337 468 361 468 388S473 457 472 505L481 507C481 464 478 416 477 387S472 337 468 317Z" fill="url(#hm-dark-coffee)" opacity=".86"/>
+  <g mask="url(#hm-photo-stream)"><image href="assets/vietnamese-coffee-ritual.png" width="1536" height="1024" filter="url(#hm-coffee-depth)"/></g>
 </svg><span class="ritual-caption">THE POUR. THE AROMA. THE CRUNCH.</span></div><div class="story-copy reveal"><span class="eyebrow">OUR ROOTS · HANOI, VIETNAM</span><h2>Bold Vietnamese Coffee.<br><em>Perfectly Roasted Cashews.</em></h2><p>In Vietnam, iced coffee is more than a way to cool down. It’s part of everyday life — a slow morning at a street-side café, a conversation with friends, or a welcome break from the heat. Strong coffee poured over ice, made to be enjoyed rather than rushed.</p><p>That’s the taste we wanted to bring to Hạt Mộc. Our robusta coffee is carefully sourced from Hanoi for its deep aroma and bold, full-bodied flavour. Freshly prepared, with no unnecessary additives — just the rich, unmistakable taste of Vietnamese coffee.</p><p>And the cashews? We choose them for the same reason: quality you can taste. Golden roasted, satisfyingly crunchy and delicious on their own or alongside a cold glass of coffee.</p><p>Simple things, done well. A little piece of Hanoi, wherever you enjoy it.</p><div class="ritual-details"><span>FROM HANOI</span><span>BOLD ROBUSTA COFFEE</span><span>CRUNCHY ROASTED CASHEWS</span></div><a class="btn" href="#shop">SHOP COFFEE &amp; CASHEWS<span class="hm-cta-arrow" aria-hidden="true"> ↗</span></a><p class="ritual-order-note">Vietnamese coffee &amp; roasted cashews · Free Bankstown pickup · Australia-wide postage</p></div></section>
 <dialog class="hm-picker" id="hm-product-picker" aria-labelledby="hm-picker-title">
 <form method="dialog" class="hm-picker-inner" id="hm-picker-form">
@@ -1004,21 +1008,16 @@ renderCart();update();
   }
   function playPour() {
     if (!image.naturalWidth || motion.classList.contains('hm-pour-playing')) return;
-    const stream = motion.querySelector('.hm-dark-stream');
+    const stream = motion.querySelector('.hm-stream-sample');
     const swirl = motion.querySelector('.hm-swirl-offset');
     const start = performance.now();
     motion.classList.add('hm-pour-playing');
     function move(now) {
       const time = (now - start) / 1000;
-      if (time >= 5 || !motion.classList.contains('hm-pour-playing')) return;
-      const sway = Math.sin(time * 5) * 2;
-      stream.setAttribute('d',
-        'M451 317C462 337 ' + (468 + sway) + ' 361 468 388S' +
-        (473 - sway) + ' 457 472 505L481 507C481 464 ' +
-        (478 - sway) + ' 416 477 387S' + (472 + sway) + ' 337 468 317Z'
-      );
-      swirl.setAttribute('dx', String(Math.sin(time * 1.65) * 55));
-      swirl.setAttribute('dy', String(time * 34 - 70));
+      if (time >= 3.5 || !motion.classList.contains('hm-pour-playing')) return;
+      stream.setAttribute('cy', String(313 + (time * 360) % 190));
+      swirl.setAttribute('dx', String(Math.sin(time * 2.65) * 55));
+      swirl.setAttribute('dy', String(time * 52 - 70));
       requestAnimationFrame(move);
     }
     requestAnimationFrame(move);
