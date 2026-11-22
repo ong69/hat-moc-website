@@ -1,5 +1,6 @@
 // Server-side Australia Post PAC quote. Requires AUSPOST_API_KEY in Vercel.
 const products={
+ coffee300:{price:16.9,grams:300,h:21,w:13,d:8},
  coffee:{price:24.9,grams:500,h:25,w:15,d:8},
  cashew150:{price:5.5,grams:150,h:19,w:11,d:6},
  cashew300:{price:10.5,grams:300,h:21,w:13,d:8},
@@ -8,9 +9,9 @@ const products={
 };
 // Verified MyPost Business customer quote for the tested single coffee parcel (0.6kg, 25x15x10cm).
 // Do not extrapolate this account-specific rate to smaller bags or multi-item orders.
-function verifiedCoffeeRate(items){if(!Array.isArray(items)||items.length!==1||items[0]?.qty!==1)return null;return items[0].id==='coffee'?16.00:items[0].id==='cashew150'?10.20:items[0].id==='cashew300'?11.70:items[0].id==='cashew500'?16.00:items[0].id==='bundle'?20.25:null;}
+function verifiedCoffeeRate(items){if(!Array.isArray(items)||items.length!==1||items[0]?.qty!==1)return null;return items[0].id==='coffee300'?11.70:items[0].id==='coffee'?16.00:items[0].id==='cashew150'?10.20:items[0].id==='cashew300'?11.70:items[0].id==='cashew500'?16.00:items[0].id==='bundle'?20.25:null;}
 async function quoteCart(items,postcode){
- if(!Array.isArray(items)||items.length<1||items.length>5||!/^[0-9]{4}$/.test(String(postcode||'')))throw Error('Invalid order or destination postcode');
+ if(!Array.isArray(items)||items.length<1||items.length>6||!/^[0-9]{4}$/.test(String(postcode||'')))throw Error('Invalid order or destination postcode');
  const fixed=verifiedCoffeeRate(items);if(fixed!==null)return fixed;
  const quantities={};
  for(const entry of items){if(!entry||!products[entry.id]||!Number.isInteger(entry.qty)||entry.qty<1||entry.qty>30)throw Error('Invalid product quantity');quantities[entry.id]=(quantities[entry.id]||0)+entry.qty;}
@@ -33,11 +34,11 @@ module.exports=async function handler(req,res){
  const {product,quantity,postcode,cart}=req.query||{};
  let items;
  try{items=cart?JSON.parse(cart):[{id:product,qty:Number(quantity)}];}catch(e){return res.status(400).json({error:'Invalid cart.'});}
- if(!Array.isArray(items)||items.length<1||items.length>5||!/^[0-9]{4}$/.test(String(postcode||'')))return res.status(400).json({error:'Invalid items or postcode.'});
+ if(!Array.isArray(items)||items.length<1||items.length>6||!/^[0-9]{4}$/.test(String(postcode||'')))return res.status(400).json({error:'Invalid items or postcode.'});
  const quantities={};
  for(const entry of items){if(!entry||!products[entry.id]||!Number.isInteger(entry.qty)||entry.qty<1||entry.qty>30)return res.status(400).json({error:'Invalid product or quantity.'});quantities[entry.id]=(quantities[entry.id]||0)+entry.qty;}
  const fixed=verifiedCoffeeRate(items);
- if(fixed!==null){const subtotal=items[0].id==='coffee'?24.90:items[0].id==='cashew150'?5.50:items[0].id==='cashew300'?10.50:items[0].id==='cashew500'?16.90:39.90;return res.status(200).json({postage:fixed,subtotal,total:Number((subtotal+fixed).toFixed(2)),service:'MyPost Business Parcel Post',estimated:false,notice:'Fixed MyPost Business rate for this tested single-item parcel, subject to actual packed size.'});}
+ if(fixed!==null){const subtotal=products[items[0].id].price;return res.status(200).json({postage:fixed,subtotal,total:Number((subtotal+fixed).toFixed(2)),service:'MyPost Business Parcel Post',estimated:false,notice:'Fixed MyPost Business rate for this tested single-item parcel, subject to actual packed size.'});}
  const entries=Object.entries(quantities);
  const totalBags=entries.reduce((n,[id,qty])=>n+qty*(id==='bundle'?2:1),0);
  const subtotal=entries.reduce((n,[id,qty])=>n+products[id].price*qty,0);

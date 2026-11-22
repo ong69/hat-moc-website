@@ -1,7 +1,7 @@
 // Secure order enquiry delivery via Resend. Configure RESEND_API_KEY and RESEND_FROM_EMAIL in Vercel.
 // No payment is taken and postage is never represented as a final charge.
-const prices={coffee:24.9,cashew150:5.5,cashew300:10.5,cashew500:16.9,bundle:39.9};
-const names={coffee:'Hanoi coffee beans 500g',cashew150:'Roasted cashews 150g',cashew300:'Roasted cashews 300g',cashew500:'Roasted cashews 500g',bundle:'Coffee + cashews bundle'};
+const prices={coffee300:16.9,coffee:24.9,cashew150:5.5,cashew300:10.5,cashew500:16.9,bundle:39.9};
+const names={coffee300:'Hanoi coffee beans 300g',coffee:'Hanoi coffee beans 500g',cashew150:'Roasted cashews 150g',cashew300:'Roasted cashews 300g',cashew500:'Roasted cashews 500g',bundle:'Coffee + cashews bundle'};
 const money=n=>'$'+n.toFixed(2);
 const clean=(v,max=200)=>typeof v==='string'?v.trim().slice(0,max):'';
 const {quoteCart}=require('./postage');
@@ -31,7 +31,7 @@ module.exports=async function handler(req,res){
  const localFree=method==='local'&&isApprovedLocal(destination);
  if(method==='local'&&!localFree)return res.status(400).json({error:'Free local delivery is not available for that suburb. Please select an approved suburb, free Bankstown pickup or Australia-wide postage.'});
  const pickup=method==='pickup',local=method==='local',postReady=method==='post'&&postageAmount!==null;
- const fixedCoffee=postReady&&items.length===1&&['coffee','cashew150','cashew300','cashew500','bundle'].includes(items[0].id)&&items[0].qty===1;
+ const fixedCoffee=postReady&&items.length===1&&['coffee300','coffee','cashew150','cashew300','cashew500','bundle'].includes(items[0].id)&&items[0].qty===1;
  const payable=pickup||postReady||localFree;
  const postage=pickup?'FREE pickup':localFree?'FREE local delivery (approved suburb)':local?'Local delivery eligibility not confirmed':postReady?money(postageAmount)+(fixedCoffee?' MyPost Business Parcel Post fixed':' Australia Post Parcel Post estimate'):'Awaiting packing and postage confirmation';
  const total=payable?money(subtotal+(postReady?postageAmount:0)):'Pending delivery confirmation';
