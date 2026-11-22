@@ -643,6 +643,15 @@ header nav>a.btn{border-radius:7px;padding:14px 18px;white-space:nowrap;font-siz
 @keyframes hm-timeline-reveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:400px){.hm-order-timeline summary{gap:7px;padding-inline:9px}.hm-timeline-info{padding-left:11px}}
 @media(prefers-reduced-motion:reduce){.hm-order-timeline details,.hm-order-timeline svg,.hm-timeline-plus::after{transition:none}.hm-order-timeline details:hover,.hm-order-timeline details:hover svg{transform:none}.hm-timeline-info{animation:none}}
+</style><style>
+@media(prefers-reduced-motion:no-preference){
+  .hm-timeline-enter li{animation:hm-timeline-arrive .42s cubic-bezier(.2,.72,.24,1) both}
+  .hm-timeline-enter li:nth-child(2){animation-delay:.065s}
+  .hm-timeline-enter li:nth-child(3){animation-delay:.13s}
+  .hm-timeline-enter li:nth-child(4){animation-delay:.195s}
+  .hm-timeline-enter li:nth-child(5){animation-delay:.26s}
+  @keyframes hm-timeline-arrive{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+}
 </style></head><body><div class="top">FREE BANKSTOWN PICKUP · FREE LOCAL DELIVERY · AUSTRALIA-WIDE SHIPPING · DISPATCH WITHIN 2 BUSINESS DAYS</div><header><a href="#" class="logo" aria-label="Hạt Mộc home">Hạt Mộc<small>THE RAW TASTE</small></a><nav aria-label="Main navigation"><a href="#shop">Shop</a><a href="#story">About us</a><a href="#order-quote">Pickup & delivery</a><a class="hm-header-cart" href="#hm-order-form" aria-label="View your cart, 0 items"><svg class="hm-cart-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M2 3h2l2.5 12.5a2 2 0 0 0 2 1.5H19a2 2 0 0 0 2-1.5L22 7H5"/></svg><span class="hm-cart-label">Cart</span><span id="hm-header-cart-count">0</span></a><a class="btn outline" href="https://m.me/hatmoc.australia" target="_blank" rel="noopener noreferrer">CONTACT US<span class="hm-cta-arrow" aria-hidden="true"> ↗</span></a></nav></header>
 <main><section class="hero"><div class="hero-art"><div class="cafe-scene"><img src="assets/hanoi-cafe.png" alt="Vietnamese café scene with a woman enjoying coffee and Hạt Mộc coffee and cashews on the table" fetchpriority="high"></div></div><div class="hero-copy"><span class="eyebrow">HANOI → SYDNEY · THE RAW TASTE</span><h1>Vietnamese Coffee<br><span class="hm-hero-title-line">&amp; Roasted Cashews.</span><br><em>Fresh from Hanoi.</em></h1><p>Discover bold Vietnamese coffee and deliciously crunchy roasted cashews, carefully sourced from Vietnam.</p><div class="actions"><a class="btn" href="#shop">SHOP THE COLLECTION<span class="hm-cta-arrow" aria-hidden="true"> ↘</span></a><a class="btn outline" href="https://m.me/hatmoc.australia" target="_blank" rel="noopener noreferrer">ASK US A QUESTION<span class="hm-cta-arrow" aria-hidden="true"> ↗</span></a></div><a class="hm-local-promo" href="#order-quote">Free local delivery <span aria-hidden="true">↗</span><span class="hm-local-sr"> in eligible suburbs. Check delivery areas.</span></a><div class="promise"><span aria-hidden="true">✧</span><div><strong>Our satisfaction promise</strong><span>Not happy? Message us and we’ll make it right.</span></div></div><div class="hero-foot">FREE BANKSTOWN PICKUP · FREE LOCAL DELIVERY · AUSTRALIA-WIDE SHIPPING · DISPATCH WITHIN 2 BUSINESS DAYS</div></div></section>
 <div class="ribbon"><span>VIETNAMESE ROOTS</span><span>RICH COFFEE. GOLDEN CRUNCH.</span><span>FREE LOCAL DELIVERY</span><span>SHIPPING AUSTRALIA-WIDE</span></div>
@@ -662,7 +671,7 @@ header nav>a.btn{border-radius:7px;padding:14px 18px;white-space:nowrap;font-siz
 <div class="hm-picker-actions"><button type="button" class="hm-picker-cancel" id="hm-picker-cancel">Cancel</button><button type="submit" class="hm-picker-continue">Continue to delivery options →</button></div>
 </form></dialog><section class="hm-order-builder" id="order-quote" aria-labelledby="hm-order-title">
 <div class="hm-order-inner"><div class="hm-order-intro"><span class="eyebrow">ORDER DIRECT FROM HẠT MỘC</span><h2 id="hm-order-title">Place Your Order</h2><p>Choose your favourites, then select free Bankstown pickup, free local delivery where available, or Australia-wide postage.</p><details class="hm-order-guide" open><summary class="hm-order-steps-title">How your order works <span class="hm-guide-chevron" aria-hidden="true">⌄</span></summary><ol class="hm-order-timeline" role="list">
-  <li><details name="hm-order-timeline" open><summary><span class="hm-timeline-number" aria-hidden="true">1</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Zm4 0V6a3 3 0 0 1 6 0v2"/></svg><strong>Choose your favourites</strong><span class="hm-timeline-plus" aria-hidden="true"></span></summary><div class="hm-timeline-info">Select coffee, cashews or a bundle and your quantity. <a href="#shop">Browse coffee &amp; cashews <span aria-hidden="true">→</span></a></div></details></li>
+  <li><details name="hm-order-timeline"><summary><span class="hm-timeline-number" aria-hidden="true">1</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Zm4 0V6a3 3 0 0 1 6 0v2"/></svg><strong>Choose your favourites</strong><span class="hm-timeline-plus" aria-hidden="true"></span></summary><div class="hm-timeline-info">Select coffee, cashews or a bundle and your quantity. <a href="#shop">Browse coffee &amp; cashews <span aria-hidden="true">→</span></a></div></details></li>
   <li><details name="hm-order-timeline"><summary><span class="hm-timeline-number" aria-hidden="true">2</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v11H3zM14 10h4l3 3v4h-7M8 19h.01M17 19h.01"/></svg><strong>Choose pickup or delivery</strong><span class="hm-timeline-plus" aria-hidden="true"></span></summary><div class="hm-timeline-info">Free Bankstown pickup, approved local suburbs or Australia-wide postage.</div></details></li>
   <li><details name="hm-order-timeline"><summary><span class="hm-timeline-number" aria-hidden="true">3</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3zM3 6l9 7 9-7"/></svg><strong>Receive your order email</strong><span class="hm-timeline-plus" aria-hidden="true"></span></summary><div class="hm-timeline-info">We’ll email your order summary and payment instructions. If postage needs confirming, wait for our final quote before paying.</div></details></li>
   <li><details name="hm-order-timeline"><summary><span class="hm-timeline-number" aria-hidden="true">4</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3zM3 10h18m-14 4h4"/></svg><strong>Pay and confirm</strong><span class="hm-timeline-plus" aria-hidden="true"></span></summary><div class="hm-timeline-info">Make payment and reply to your email with payment confirmation so we can verify it.</div></details></li>
@@ -920,5 +929,31 @@ renderCart();update();
 </html>
 +c.dataset.price+' ';const small=document.createElement('small');small.textContent='AUD · '+c.value+'g';price.append(small);order.firstChild.textContent='ADD '+c.value+'G COFFEE — 
 </html>
-+c.dataset.price;order.setAttribute('aria-label','Add '+c.value+'g coffee to your order');}choices.forEach(c=>c.addEventListener('change',update));update();order.addEventListener('click',()=>window.hmOpenProductPicker?.(selected().value==='300'?'coffee300':'coffee'));})();</script></body>
++c.dataset.price;order.setAttribute('aria-label','Add '+c.value+'g coffee to your order');}choices.forEach(c=>c.addEventListener('change',update));update();order.addEventListener('click',()=>window.hmOpenProductPicker?.(selected().value==='300'?'coffee300':'coffee'));})();</script><script>
+(() => {
+  const timeline = document.querySelector('.hm-order-timeline');
+  if (!timeline) return;
+
+  const hover = matchMedia('(hover: hover) and (pointer: fine)');
+  timeline.querySelectorAll('details').forEach(step => {
+    const summary = step.querySelector('summary');
+    let pending;
+    summary.addEventListener('pointerenter', event => {
+      if (!hover.matches || event.pointerType !== 'mouse') return;
+      pending = setTimeout(() => { step.open = true; }, 180);
+    });
+    summary.addEventListener('pointerleave', () => clearTimeout(pending));
+    summary.addEventListener('click', () => clearTimeout(pending));
+  });
+
+  if (!('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver(entries => {
+    if (!entries.some(entry => entry.isIntersecting)) return;
+    timeline.classList.add('hm-timeline-enter');
+    observer.disconnect();
+  });
+  observer.observe(timeline);
+})();
+</script>
+</body>
 </html>
