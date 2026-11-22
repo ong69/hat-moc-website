@@ -672,15 +672,12 @@ header nav>a.btn{border-radius:7px;padding:14px 18px;white-space:nowrap;font-siz
     <mask id="hm-liquid-glass"><ellipse cx="446" cy="696" rx="155" ry="226" fill="url(#hm-liquid-feather)"/></mask>
     <filter id="hm-stream-flow" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency=".022 .009" numOctaves="2" seed="3"/>
-      <feOffset dy="0"><animate attributeName="dy" from="-95" to="95" dur="1.05s" repeatCount="indefinite" begin="indefinite"/></feOffset>
+      <feOffset class="hm-stream-offset" dy="0"/>
       <feDisplacementMap in="SourceGraphic" scale="16" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
     <filter id="hm-glass-swirl" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency=".006 .008" numOctaves="2" seed="8"/>
-      <feOffset dx="0" dy="0">
-        <animate attributeName="dx" values="-45;22;45;-22;-45" dur="4.8s" repeatCount="indefinite" begin="indefinite"/>
-        <animate attributeName="dy" values="-65;-25;24;65" dur="5s" begin="indefinite"/>
-      </feOffset>
+      <feOffset class="hm-swirl-offset" dx="0" dy="0"/>
       <feDisplacementMap in="SourceGraphic" scale="47" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
   </defs>
@@ -1007,8 +1004,19 @@ renderCart();update();
   }
   function playPour() {
     if (!image.naturalWidth || motion.classList.contains('hm-pour-playing')) return;
-    motion.querySelectorAll('animate').forEach(animation => animation.beginElement());
+    const stream = motion.querySelector('.hm-stream-offset');
+    const swirl = motion.querySelector('.hm-swirl-offset');
+    const start = performance.now();
     motion.classList.add('hm-pour-playing');
+    function move(now) {
+      const time = (now - start) / 1000;
+      if (time >= 5 || !motion.classList.contains('hm-pour-playing')) return;
+      stream.setAttribute('dy', String(time * 170));
+      swirl.setAttribute('dx', String(Math.sin(time * 1.65) * 55));
+      swirl.setAttribute('dy', String(time * 34 - 70));
+      requestAnimationFrame(move);
+    }
+    requestAnimationFrame(move);
   }
   image.addEventListener('load', sizeMotion);
   if ('ResizeObserver' in window) new ResizeObserver(sizeMotion).observe(image);
@@ -1016,7 +1024,6 @@ renderCart();update();
   motion.addEventListener('animationend', event => {
     if (event.animationName !== 'hm-coffee-motion') return;
     motion.classList.remove('hm-pour-playing');
-    motion.querySelectorAll('animate').forEach(animation => animation.endElement());
   });
   banner.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') playPour(); });
   if ('IntersectionObserver' in window) {
