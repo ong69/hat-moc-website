@@ -366,5 +366,59 @@
     ],
     "published": "2026-11-21",
     "product": "coffee"
+  },
+  {
+    "slug": "phin-coffee-dripping-too-fast-or-slow",
+    "title": "Why is my Vietnamese phin coffee dripping too fast or too slow?",
+    "category": "Brewing guides",
+    "intro": "If your phin pours straight through or refuses to drip, start with the grind. Here’s how to diagnose the flow, rescue today’s cup and fix the next one.",
+    "image": {
+      "src": "/assets/journal/phin-coffee-dripping-too-fast-or-slow.webp",
+      "alt": "A stainless-steel Vietnamese phin dripping dark coffee into a clear glass beside two piles of ground coffee"
+    },
+    "cta": "Brew with Hạt Mộc’s Hanoi coffee beans",
+    "published": "2026-11-23",
+    "product": "coffee",
+    "related": [
+      "vietnamese-robusta-coffee",
+      "five-vietnamese-coffee-recipes",
+      "vietnamese-coffee-beans-sydney"
+    ],
+    "sources": [
+      [
+        "Nguyen Coffee Supply · Phin brewing FAQ",
+        "https://nguyencoffeesupply.com/pages/how-to-vietnamese-coffee-faq"
+      ],
+      [
+        "Nguyen Coffee Supply · How to use and clean a phin",
+        "https://nguyencoffeesupply.com/blogs/news/using-and-maintaining-a-vietnamese-phin-filter"
+      ]
+    ],
+    "sections": [
+      [
+        "Start with the drip, then taste",
+        "You’ve set the phin on a glass, added the water and walked away for a moment. When you come back, the glass is already full. Or there’s still a pool of water sitting above the grounds. Those are useful clues: a fast, watery brew usually calls for a finer grind, while a stalled brew calls for a coarser grind and a lighter touch with the press. If the coffee is dripping steadily and tastes good, keep your setting. The clock is a diagnostic tool, and your cup is the deciding test."
+      ],
+      [
+        "Use one recipe as your baseline",
+        "For a small phin with room for the grounds and water, start with 18 g of medium-fine ground Vietnamese coffee and about 90 mL of hot water. Level the grounds with a light shake, then set the insert on top without tamping. Add about 20 mL of water to wet the coffee, wait 30 seconds, then add the remaining 70 mL. Start a timer with the first pour and make a note of when the stream tapers to the last few drips. Roughly five minutes is a useful starting reference. Filter size, grind, dose and the press design can all shift the timing, so treat it as a reference for your own setup."
+      ],
+      [
+        "If it runs straight through",
+        "If most of the water disappears in a minute or two and the coffee tastes thin, try one small step finer on the grinder. Use the same coffee dose and water so you can tell what changed. If you’re already using a fine grind, check whether your dose is too shallow for the basket. A light dose in a large phin can leave too little of a coffee bed for the water to move through. Also look for grounds heaped on one side or a tilted insert. Shake the basket gently before adding the press, and keep the phin level. If you’re using pre-ground coffee, try a phin-appropriate grind next time. Adding extra condensed milk to a thin brew will make it sweeter, but it will also make the coffee harder to taste."
+      ],
+      [
+        "If it barely drips or stops",
+        "If water is still sitting in the chamber after several minutes with almost nothing in the glass, check three things. First, look at the grind. Very powdery grounds can slow the flow considerably. Go a little coarser on the next cup. Second, check the insert. With a gravity press, let it rest on the bed. With a screw-down press, try easing the pressure next time. Third, inspect the holes in the base and insert once the phin has cooled. Rinse away any grounds left behind from the last brew. If this happens with the same bag and grinder setting that worked yesterday, clean the filter and check the press before changing your grind."
+      ],
+      [
+        "Rescue the cup you already made",
+        "A thin cup can still work over less ice. Taste it before adding milk or sugar, then add just enough to suit you. If you have time, a smaller second brew can bring the coffee flavour back up. If the phin has stalled, avoid poking or forcing the press while the brewer is full of hot water. Set the cup and phin on a stable surface, let them cool before handling, and start again with coarser grounds and a loose insert. If the brew did finish but tastes stronger or harsher than you wanted, try a splash of hot water before writing it off. For cà phê sữa đá, taste with the condensed milk before adding all the ice."
+      ],
+      [
+        "Change one thing at a time",
+        "Write down the dose, water, grinder setting, finish time and how it tasted. A note as short as “18 g, 90 mL, setting 12, two minutes, thin” is enough. Keep the first two numbers fixed and move one step finer. If the next brew slows and tastes fuller, you know the grind was the main issue. If it still pours straight through, check the basket size and whether the bed is level. If it swings from thin to almost stalled, return to the previous setting and test a slightly higher dose that still fits comfortably under the press. Once you’ve found a repeatable cup, keep that note with your grinder. It’s a better starting point for the next bag than copying somebody else’s exact dial setting."
+      ]
+    ]
   }
 ]
