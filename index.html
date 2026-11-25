@@ -739,23 +739,24 @@ body :is(.btn, button, .hm-header-cart, .hm-empty-cart-shop, .hm-empty-all, #hm-
 .hm-real-video .hm-video-highlights {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin: 20px 0 0;
+  align-items: start;
+  gap: 8px 22px;
+  margin: 18px 0 0;
+  color: #e8e4d3;
 }
 .hm-real-video .hm-video-highlights > span {
-  align-items: center;
+  align-items: flex-start;
   min-width: 0;
   max-width: 100%;
-  padding: 8px 12px;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  background:
-    linear-gradient(120deg, #1b4836, #0e3024) padding-box,
-    linear-gradient(135deg, #c4a362, #496047 60%, #8b7448) border-box;
-  box-shadow: inset 0 1px 0 rgb(255 239 197 / 8%), 0 3px 9px rgb(0 18 12 / 24%);
+  line-height: 1.4;
 }
-.hm-real-video .hm-video-highlights svg { margin-top: 0; }
+.hm-real-video .hm-video-highlights svg {
+  margin-top: 1px;
+  color: #e8c574;
+}
+@media (max-width: 480px) {
+  .hm-real-video .hm-video-highlights { flex-direction: column; }
+}
 .hm-real-video-copy .hm-video-shop {
   margin-top: 16px;
   min-height: 48px;
