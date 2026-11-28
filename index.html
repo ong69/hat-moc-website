@@ -1174,7 +1174,7 @@ function send(channel){if(!entries().length){status.textContent='Add at least on
 [product,qty,method].forEach(field=>{field.addEventListener('change',update);field.addEventListener('input',update);});
 postcode.addEventListener('focus',()=>{loadPlaces();showSuggestions();});
 postcode.addEventListener('click',()=>showSuggestions());
-method.addEventListener('change',()=>{chosen=null;postcode.value='';postcode.placeholder=method.value==='local'?'Choose an approved suburb':'Start typing a suburb or postcode';update();});
+method.addEventListener('change',()=>{chosen=null;postcode.value='';postcode.placeholder=method.value==='local'?'Start typing your suburb':'Start typing a suburb or postcode';update();});
 postcode.addEventListener('input',()=>{chosen=null;postcode.setCustomValidity('');update();showSuggestions();});
 postcode.addEventListener('blur',()=>setTimeout(()=>{if(suggestions)suggestions.hidden=true;postcode.setAttribute('aria-expanded','false');},180));
 el('hm-submit-order').addEventListener('click',async()=>{
@@ -1338,5 +1338,26 @@ renderCart();update();
     observer.observe(banner);
   }
 })();
-</script><script id="hm-mobile-guide-toggle">(function(){const guide=document.querySelector('.hm-order-guide');if(!guide)return;const media=window.matchMedia('(max-width:800px)');function sync(e){guide.open=!e.matches}sync(media);if(media.addEventListener)media.addEventListener('change',sync);else if(media.addListener)media.addListener(sync);})();</script><style id="hm-total-contrast-fix">#hm-order-form .hm-checkout-summary .hm-summary-grand{background:linear-gradient(135deg,#ffe3a0,#e2b65d)!important;border:1px solid #ffe8b4!important;border-radius:10px!important;padding:12px!important;color:#0b2b21!important}#hm-order-form .hm-checkout-summary .hm-summary-grand>span,#hm-order-form .hm-checkout-summary .hm-summary-grand strong,#hm-order-form .hm-checkout-summary .hm-summary-grand small{color:#0b2b21!important}</style><style id="hm-compact-total">#hm-order-form .hm-checkout-summary .hm-summary-grand{grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;row-gap:0!important;padding:10px 13px!important;min-height:0!important}#hm-order-form .hm-summary-grand>span{grid-row:1 / span 2;align-self:center}#hm-order-form .hm-summary-grand strong{grid-column:2;grid-row:1;margin:0!important;line-height:1.1!important}#hm-order-form #hm-grand-postage{grid-column:2;grid-row:2;justify-self:end;margin:2px 0 0!important;padding:0!important;line-height:1.2!important}#hm-order-form #hm-grand-postage[hidden]{display:none!important}</style></body>
+</script><script id="hm-mobile-guide-toggle">(function(){const guide=document.querySelector('.hm-order-guide');if(!guide)return;const media=window.matchMedia('(max-width:800px)');function sync(e){guide.open=!e.matches}sync(media);if(media.addEventListener)media.addEventListener('change',sync);else if(media.addListener)media.addListener(sync);})();</script><style id="hm-total-contrast-fix">#hm-order-form .hm-checkout-summary .hm-summary-grand{background:linear-gradient(135deg,#ffe3a0,#e2b65d)!important;border:1px solid #ffe8b4!important;border-radius:10px!important;padding:12px!important;color:#0b2b21!important}#hm-order-form .hm-checkout-summary .hm-summary-grand>span,#hm-order-form .hm-checkout-summary .hm-summary-grand strong,#hm-order-form .hm-checkout-summary .hm-summary-grand small{color:#0b2b21!important}</style><style id="hm-compact-total">#hm-order-form .hm-checkout-summary .hm-summary-grand{grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;row-gap:0!important;padding:10px 13px!important;min-height:0!important}#hm-order-form .hm-summary-grand>span{grid-row:1 / span 2;align-self:center}#hm-order-form .hm-summary-grand strong{grid-column:2;grid-row:1;margin:0!important;line-height:1.1!important}#hm-order-form #hm-grand-postage{grid-column:2;grid-row:2;justify-self:end;margin:2px 0 0!important;padding:0!important;line-height:1.2!important}#hm-order-form #hm-grand-postage[hidden]{display:none!important}</style><style id="hm-checkout-final-refinement">
+#hm-order-form{padding:clamp(16px,3vw,30px)!important;color:#f9f1df;line-height:1.5}
+#hm-order-form .hm-checkout-section-head strong,#hm-order-form #hm-details-title{font-size:20px;letter-spacing:-.02em;color:#fff4db}
+#hm-order-form .hm-delivery-section{gap:12px;padding-bottom:18px}
+#hm-order-form .hm-delivery-choices{margin:0;gap:9px}
+#hm-order-form #hm-order-postcode-wrap{margin-top:0;gap:6px}
+#hm-order-form .hm-delivery-choices label>span{min-height:92px;padding:10px 5px;gap:5px}
+#hm-order-form .hm-delivery-choices strong{font-size:14px}
+#hm-order-form .hm-delivery-choices small{font-size:12px}
+#hm-order-form .hm-checkout-body label,#hm-order-form #hm-order-postcode-wrap{color:#f7e5bc;font-size:14px;font-weight:600}
+#hm-order-form .hm-checkout-body input:not([type=hidden]),#hm-order-form .hm-checkout-body textarea,#hm-order-form #hm-order-postcode{background:#173e30;border:1px solid #a78f596e;border-radius:9px;color:#fff7e6;min-height:46px;font-size:16px;box-shadow:inset 0 2px 5px #001a1226}
+#hm-order-form input::placeholder,#hm-order-form textarea::placeholder{color:#c4d2c8;opacity:1}
+#hm-order-form .hm-checkout-body input:focus,#hm-order-form .hm-checkout-body textarea:focus,#hm-order-form #hm-order-postcode:focus{outline:2px solid #e8c574;outline-offset:2px}
+#hm-order-form .hm-checkout-details{margin-top:20px}
+#hm-order-form .hm-order-contact-grid{gap:8px 12px}
+#hm-order-form .hm-checkout-summary{padding:18px;background:linear-gradient(145deg,#1a4435,#12372a)}
+#hm-order-form .hm-summary-note,#hm-order-form #hm-postage-disclaimer,#hm-order-form .hm-location-hint{font-size:12px;color:#d7dfd0;line-height:1.45}
+#hm-order-form .hm-summary-note{margin:7px 0 0}
+#hm-order-form .hm-summary-grand>span{font-size:15px}
+#hm-order-form .hm-submit-order{font-size:16px;font-weight:750;letter-spacing:.01em;text-transform:none}
+@media(max-width:480px){#hm-order-form .hm-checkout-section-head strong,#hm-order-form #hm-details-title{font-size:18px}#hm-order-form .hm-delivery-choices strong{font-size:12px}#hm-order-form .hm-delivery-choices small{font-size:11px}#hm-order-form .hm-delivery-choices{gap:6px}#hm-order-form .hm-checkout-summary{padding:14px}}
+</style></body>
 </html>
